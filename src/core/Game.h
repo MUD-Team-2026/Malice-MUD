@@ -1,0 +1,28 @@
+#ifndef GAME_H
+#define GAME_H
+
+#include "entities/Room.h"
+#include "core/CommandParser.h"
+#include <map>
+using namespace std;
+
+class Game {
+private:
+    Room* currentRoom;
+    map<string, Room*> rooms;
+    CommandParser parser;
+    bool isRunning;
+
+public:
+    Game();
+    ~Game();
+
+    void init();
+    void run();
+    void processCommand(const string& input);
+    void go(const string& direction);
+    void look();
+    Room* getCurrentRoom() const;
+};
+
+#endif

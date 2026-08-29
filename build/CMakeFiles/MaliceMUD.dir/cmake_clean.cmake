@@ -1,0 +1,41 @@
+file(REMOVE_RECURSE
+  "CMakeFiles/MaliceMUD.dir/src/clues/Clue.cpp.o"
+  "CMakeFiles/MaliceMUD.dir/src/clues/Clue.cpp.o.d"
+  "CMakeFiles/MaliceMUD.dir/src/clues/Judge.cpp.o"
+  "CMakeFiles/MaliceMUD.dir/src/clues/Judge.cpp.o.d"
+  "CMakeFiles/MaliceMUD.dir/src/clues/Notebook.cpp.o"
+  "CMakeFiles/MaliceMUD.dir/src/clues/Notebook.cpp.o.d"
+  "CMakeFiles/MaliceMUD.dir/src/core/BattleSystem.cpp.o"
+  "CMakeFiles/MaliceMUD.dir/src/core/BattleSystem.cpp.o.d"
+  "CMakeFiles/MaliceMUD.dir/src/core/CommandParser.cpp.o"
+  "CMakeFiles/MaliceMUD.dir/src/core/CommandParser.cpp.o.d"
+  "CMakeFiles/MaliceMUD.dir/src/core/Game.cpp.o"
+  "CMakeFiles/MaliceMUD.dir/src/core/Game.cpp.o.d"
+  "CMakeFiles/MaliceMUD.dir/src/core/SaveManager.cpp.o"
+  "CMakeFiles/MaliceMUD.dir/src/core/SaveManager.cpp.o.d"
+  "CMakeFiles/MaliceMUD.dir/src/entities/Character.cpp.o"
+  "CMakeFiles/MaliceMUD.dir/src/entities/Character.cpp.o.d"
+  "CMakeFiles/MaliceMUD.dir/src/entities/Entity.cpp.o"
+  "CMakeFiles/MaliceMUD.dir/src/entities/Entity.cpp.o.d"
+  "CMakeFiles/MaliceMUD.dir/src/entities/MapBuilder.cpp.o"
+  "CMakeFiles/MaliceMUD.dir/src/entities/MapBuilder.cpp.o.d"
+  "CMakeFiles/MaliceMUD.dir/src/entities/Player.cpp.o"
+  "CMakeFiles/MaliceMUD.dir/src/entities/Player.cpp.o.d"
+  "CMakeFiles/MaliceMUD.dir/src/entities/Room.cpp.o"
+  "CMakeFiles/MaliceMUD.dir/src/entities/Room.cpp.o.d"
+  "CMakeFiles/MaliceMUD.dir/src/main.cpp.o"
+  "CMakeFiles/MaliceMUD.dir/src/main.cpp.o.d"
+  "CMakeFiles/MaliceMUD.dir/src/npc/DialogTree.cpp.o"
+  "CMakeFiles/MaliceMUD.dir/src/npc/DialogTree.cpp.o.d"
+  "CMakeFiles/MaliceMUD.dir/src/npc/NPC.cpp.o"
+  "CMakeFiles/MaliceMUD.dir/src/npc/NPC.cpp.o.d"
+  "CMakeFiles/MaliceMUD.dir/src/npc/Suspect.cpp.o"
+  "CMakeFiles/MaliceMUD.dir/src/npc/Suspect.cpp.o.d"
+  "MaliceMUD"
+  "MaliceMUD.pdb"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang CXX)
+  include(CMakeFiles/MaliceMUD.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()

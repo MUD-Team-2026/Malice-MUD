@@ -1,0 +1,3 @@
+/home/alienare/Malice-MUD/build/CMakeFiles/MaliceMUD.dir
+/home/alienare/Malice-MUD/build/CMakeFiles/edit_cache.dir
+/home/alienare/Malice-MUD/build/CMakeFiles/rebuild_cache.dir
