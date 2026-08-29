@@ -1,4 +1,5 @@
 #include "Room.h"
+#include "npc/NPC.h"   // ✅ 加上这一行
 
 Room::Room() : Entity() {}
 
@@ -50,5 +51,14 @@ string Room::getFullDescription() const {
     string result = "=== " + getName() + " ===\n";
     result += getDescription() + "\n\n";
     result += getExitsDescription() + "\n";
+
+    if (!npcs.empty()) {
+        result += "这里有 NPC：";
+        for (auto npc : npcs) {
+            result += npc->getName() + " ";
+        }
+        result += "\n";
+    }
+
     return result;
 }

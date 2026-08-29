@@ -1,18 +1,17 @@
 #include "Game.h"
 #include <iostream>
+#include <vector>
 
-Game::Game() : currentRoom(nullptr), isRunning(false) {}
+Game::Game() : currentRoom(nullptr), suspect(nullptr), isRunning(false) {}
 
 Game::~Game() {}
 
 void Game::init() {
-    // 创建房间
     Room* policeOffice = new Room("police", "警视厅搜查一課", "你站在警视厅的办公室里，桌上堆满了案件档案。");
     Room* study = new Room("study", "日高家书房", "书架上摆满了日高的作品。桌上有一个沾血的铜制纸镇。");
     Room* livingRoom = new Room("living", "日高家客厅", "客厅里有一台电视和一盘录像带。");
     Room* suspectHome = new Room("suspect_home", "野野口公寓", "房间里凌乱不堪，桌上堆满手写稿纸。");
 
-    // 添加出口
     policeOffice->addExit("书房", study);
     policeOffice->addExit("公寓", suspectHome);
     study->addExit("客厅", livingRoom);
@@ -20,13 +19,14 @@ void Game::init() {
     livingRoom->addExit("书房", study);
     suspectHome->addExit("警视厅", policeOffice);
 
-    // 存到房间映射中
     rooms["police"] = policeOffice;
     rooms["study"] = study;
     rooms["living"] = livingRoom;
     rooms["suspect_home"] = suspectHome;
 
-    // 设置玩家起始位置
+    suspect = new Suspect("suspect", "野野口修", "一个看起来谦卑懦弱的中年男人。");
+    study->addNPC(suspect);
+
     currentRoom = policeOffice;
 
     cout << "游戏初始化完成！" << endl;
@@ -78,10 +78,7 @@ void Game::processCommand(const string& input) {
             break;
 
         case CommandType::TALK:
-            if (cmd.arg.empty())
-                cout << "请指定要对话的人，例如：talk 野野口" << endl;
-            else
-                cout << "你与 " << cmd.arg << " 对话。（功能开发中...）" << endl;
+            talk(cmd.arg);
             break;
 
         case CommandType::THINK:
@@ -130,6 +127,31 @@ void Game::look() {
         return;
     }
     cout << currentRoom->getFullDescription() << endl;
+}
+
+void Game::talk(const string& npcName) {
+    if (npcName.empty()) {
+        cout << "请指定要对话的人，例如：talk 野野口" << endl;
+        return;
+    }
+
+    string target = npcName;
+    while (!target.empty() && target.front() == ' ') target.erase(0, 1);
+    while (!target.empty() && target.back() == ' ') target.pop_back();
+
+    vector<NPC*> npcs = currentRoom->getNPCs();
+
+    for (NPC* npc : npcs) {
+        string npcNameStr = npc->getName();
+        while (!npcNameStr.empty() && npcNameStr.front() == ' ') npcNameStr.erase(0, 1);
+        while (!npcNameStr.empty() && npcNameStr.back() == ' ') npcNameStr.pop_back();
+
+        if (npcNameStr == target) {
+            cout << npc->getFirstDialog() << endl;
+            return;
+        }
+    }
+    cout << "这里没有叫「" << target << "」的人。" << endl;
 }
 
 Room* Game::getCurrentRoom() const {

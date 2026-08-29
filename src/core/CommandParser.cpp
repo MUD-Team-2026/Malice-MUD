@@ -2,7 +2,6 @@
 #include <sstream>
 
 CommandParser::CommandParser() {
-    // 初始化命令映射
     cmdMap["help"] = CommandType::HELP;
     cmdMap["quit"] = CommandType::QUIT;
     cmdMap["exit"] = CommandType::QUIT;
@@ -27,19 +26,23 @@ Command CommandParser::parse(const string& input) {
 
     if (input.empty()) return cmd;
 
-    istringstream iss(input);
-    string word;
-    iss >> word;
+    // 按空格分割命令和参数
+    size_t pos = input.find(' ');
+    string word = input;
+    string arg = "";
 
-    // 查找命令
+    if (pos != string::npos) {
+        word = input.substr(0, pos);
+        arg = input.substr(pos + 1);
+        // 去除前后空格
+        while (!arg.empty() && arg.front() == ' ') arg.erase(0, 1);
+        while (!arg.empty() && arg.back() == ' ') arg.pop_back();
+    }
+
     auto it = cmdMap.find(word);
     if (it != cmdMap.end()) {
         cmd.type = it->second;
-        // 获取参数（如果有）
-        string arg;
-        if (iss >> arg) {
-            cmd.arg = arg;
-        }
+        cmd.arg = arg;
     }
 
     return cmd;
@@ -47,9 +50,8 @@ Command CommandParser::parse(const string& input) {
 
 bool CommandParser::isValid(const string& input) {
     if (input.empty()) return false;
-    string word;
-    istringstream iss(input);
-    iss >> word;
+    size_t pos = input.find(' ');
+    string word = (pos != string::npos) ? input.substr(0, pos) : input;
     return cmdMap.find(word) != cmdMap.end();
 }
 

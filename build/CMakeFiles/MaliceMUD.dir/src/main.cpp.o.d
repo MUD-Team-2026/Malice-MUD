@@ -129,4 +129,7 @@ CMakeFiles/MaliceMUD.dir/src/main.cpp.o: \
  /usr/include/c++/15/bits/stl_vector.h \
  /usr/include/c++/15/bits/stl_bvector.h \
  /usr/include/c++/15/bits/vector.tcc \
+ /home/alienare/Malice-MUD/src/npc/Suspect.h \
+ /home/alienare/Malice-MUD/src/npc/NPC.h \
+ /home/alienare/Malice-MUD/src/entities/Character.h \
  /home/alienare/Malice-MUD/src/core/CommandParser.h
