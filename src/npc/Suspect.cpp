@@ -1,10 +1,11 @@
 #include "Suspect.h"
 #include <iostream>
+#include <cstdlib>
 
-Suspect::Suspect() : NPC(), despairLevel(0), hasConfessed(false), isLying(true) {}
+Suspect::Suspect() : NPC(), despairLevel(0), hasConfessed(false), isLying(true), attackCooldown(0) {}
 
 Suspect::Suspect(const string& id, const string& name, const string& desc)
-    : NPC(id, name, desc), despairLevel(0), hasConfessed(false), isLying(true) {}
+    : NPC(id, name, desc), despairLevel(0), hasConfessed(false), isLying(true), attackCooldown(0) {}
 
 string Suspect::getFirstDialog() {
     if (isLying) {
@@ -25,12 +26,10 @@ string Suspect::getDialog(const string& playerInput) {
     return getFirstDialog();
 }
 
-int Suspect::getDespairLevel() const {
-    return despairLevel;
-}
+int Suspect::getDespairLevel() const { return despairLevel; }
 
-void Suspect::increaseDespair() {
-    despairLevel += 10;
+void Suspect::increaseDespair(int amount) {
+    despairLevel += amount;
     if (despairLevel >= 100) {
         confess();
     }
@@ -42,17 +41,10 @@ void Suspect::confess() {
     cout << "野野口修低下了头：\"好吧……我说实话……\"" << endl;
 }
 
-bool Suspect::getHasConfessed() const {
-    return hasConfessed;
-}
+bool Suspect::getHasConfessed() const { return hasConfessed; }
 
-void Suspect::setLying(bool lying) {
-    isLying = lying;
-}
-
-bool Suspect::getIsLying() const {
-    return isLying;
-}
+void Suspect::setLying(bool lying) { isLying = lying; }
+bool Suspect::getIsLying() const { return isLying; }
 
 string Suspect::getLieVersion() {
     return "我是日高的影子写手……他威胁我……我为了保护情人才杀了他……";
@@ -60,4 +52,36 @@ string Suspect::getLieVersion() {
 
 string Suspect::getTruthVersion() {
     return "我就是看他不爽。从中学开始，我就恨他……";
+}
+
+string Suspect::getAttackType() {
+    attackCooldown--;
+    if (attackCooldown < 0) attackCooldown = 0;
+    
+    if (despairLevel > 70 && !hasConfessed) {
+        return "last_lie";
+    }
+    
+    int choice = rand() % 3;
+    switch(choice) {
+        case 0: return "lie";
+        case 1: return "sob";
+        case 2: return "rage";
+        default: return "lie";
+    }
+}
+
+int Suspect::calculateDamage() {
+    if (despairLevel > 70) {
+        return 20 + (despairLevel - 70) / 5;
+    }
+    return 10 + rand() % 15;
+}
+
+bool Suspect::canUseLastLie() {
+    return despairLevel > 70 && !hasConfessed;
+}
+
+void Suspect::resetAttackCooldown() {
+    attackCooldown = 0;
 }

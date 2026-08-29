@@ -1,5 +1,5 @@
 #include "Room.h"
-#include "npc/NPC.h"   // ✅ 加上这一行
+#include "npc/NPC.h"
 
 Room::Room() : Entity() {}
 
@@ -58,6 +58,21 @@ string Room::getFullDescription() const {
             result += npc->getName() + " ";
         }
         result += "\n";
+    }
+
+    // 添加可检查物品提示
+    if (getId() == "study") {
+        result += "你可以检查：纸镇、樱花\n";
+    } else if (getId() == "suspect_home") {
+        result += "你可以检查：手稿、打字机\n";
+    } else if (getId() == "living") {
+        result += "你可以检查：录影带\n";
+    } else if (getId() == "pharmacy") {
+        result += "你可以检查：毒药（或山埃）\n";
+    } else if (getId() == "old_school") {
+        result += "你可以检查：毕业册\n";
+    } else if (getId() == "old_house") {
+        result += "你可以检查：信件\n";
     }
 
     return result;

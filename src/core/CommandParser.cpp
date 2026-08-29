@@ -17,6 +17,8 @@ CommandParser::CommandParser() {
     cmdMap["质问"] = CommandType::QUESTION;
     cmdMap["沉思"] = CommandType::MEDITATE;
     cmdMap["威吓"] = CommandType::INTIMIDATE;
+    cmdMap["report"] = CommandType::REPORT;
+    cmdMap["map"] = CommandType::MAP;
 }
 
 Command CommandParser::parse(const string& input) {
@@ -26,7 +28,6 @@ Command CommandParser::parse(const string& input) {
 
     if (input.empty()) return cmd;
 
-    // 按空格分割命令和参数
     size_t pos = input.find(' ');
     string word = input;
     string arg = "";
@@ -34,7 +35,6 @@ Command CommandParser::parse(const string& input) {
     if (pos != string::npos) {
         word = input.substr(0, pos);
         arg = input.substr(pos + 1);
-        // 去除前后空格
         while (!arg.empty() && arg.front() == ' ') arg.erase(0, 1);
         while (!arg.empty() && arg.back() == ' ') arg.pop_back();
     }
@@ -68,6 +68,8 @@ string CommandParser::getHelp() const {
            "  load           - 读档\n"
            "  help           - 显示帮助\n"
            "  quit           - 退出游戏\n"
+           "  report         - 提交结案报告\n"
+           "  map            - 查看案件地图\n"
            "对质战斗命令：\n"
            "  质问 <线索名>  - 出示证据质问\n"
            "  沉思           - 恢复心理防线\n"

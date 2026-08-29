@@ -10,6 +10,15 @@ using namespace std;
 class NPC;
 class Item;
 
+// 房间ID常量
+const string ROOM_POLICE = "police";
+const string ROOM_STUDY = "study";
+const string ROOM_LIVING = "living";
+const string ROOM_SUSPECT_HOME = "suspect_home";
+const string ROOM_OLD_SCHOOL = "old_school";
+const string ROOM_OLD_HOUSE = "old_house";
+const string ROOM_PHARMACY = "pharmacy";
+
 class Room : public Entity {
 private:
     map<string, Room*> exits;

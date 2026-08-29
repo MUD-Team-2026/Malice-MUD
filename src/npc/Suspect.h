@@ -8,6 +8,7 @@ private:
     int despairLevel;
     bool hasConfessed;
     bool isLying;
+    int attackCooldown;
 
 public:
     Suspect();
@@ -17,7 +18,7 @@ public:
     string getDialog(const string& playerInput) override;
 
     int getDespairLevel() const;
-    void increaseDespair();
+    void increaseDespair(int amount);
     void confess();
     bool getHasConfessed() const;
 
@@ -26,6 +27,11 @@ public:
 
     string getLieVersion();
     string getTruthVersion();
+
+    string getAttackType();
+    int calculateDamage();
+    bool canUseLastLie();
+    void resetAttackCooldown();
 };
 
 #endif
