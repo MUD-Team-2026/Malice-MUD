@@ -4,6 +4,8 @@
 #include "entities/Room.h"
 #include "npc/Suspect.h"
 #include "core/CommandParser.h"
+#include "clues/Notebook.h"
+#include "clues/Judge.h"
 #include <map>
 using namespace std;
 
@@ -12,6 +14,8 @@ private:
     Room* currentRoom;
     map<string, Room*> rooms;
     Suspect* suspect;
+    Notebook* notebook;
+    Judge* judge;
     CommandParser parser;
     bool isRunning;
 
@@ -25,6 +29,10 @@ public:
     void go(const string& direction);
     void look();
     void talk(const string& npcName);
+    void examine(const string& itemName);
+    void think();
+    void showNotebook();
+    void combine(const string& args);
     Room* getCurrentRoom() const;
 };
 

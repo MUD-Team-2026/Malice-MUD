@@ -132,4 +132,9 @@ CMakeFiles/MaliceMUD.dir/src/main.cpp.o: \
  /home/alienare/Malice-MUD/src/npc/Suspect.h \
  /home/alienare/Malice-MUD/src/npc/NPC.h \
  /home/alienare/Malice-MUD/src/entities/Character.h \
- /home/alienare/Malice-MUD/src/core/CommandParser.h
+ /home/alienare/Malice-MUD/src/core/CommandParser.h \
+ /home/alienare/Malice-MUD/src/clues/Notebook.h \
+ /home/alienare/Malice-MUD/src/clues/Clue.h \
+ /home/alienare/Malice-MUD/src/entities/Entity.h \
+ /home/alienare/Malice-MUD/src/clues/Judge.h \
+ /home/alienare/Malice-MUD/src/clues/Notebook.h

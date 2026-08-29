@@ -2,7 +2,7 @@
 #include <iostream>
 #include <vector>
 
-Game::Game() : currentRoom(nullptr), suspect(nullptr), isRunning(false) {}
+Game::Game() : currentRoom(nullptr), suspect(nullptr), notebook(nullptr), judge(nullptr), isRunning(false) {}
 
 Game::~Game() {}
 
@@ -26,6 +26,40 @@ void Game::init() {
 
     suspect = new Suspect("suspect", "野野口修", "一个看起来谦卑懦弱的中年男人。");
     study->addNPC(suspect);
+
+    // 创建推理系统
+    notebook = new Notebook();
+    judge = new Judge(notebook);
+
+    // 创建5个关键线索
+    Clue* c1 = new Clue("clue_handwriting", "手写稿破绽", 
+                         "野野口右手中指有厚厚的写茧，但打字机键盘几乎没有磨损。\n他最近大量手写——这些手稿是连夜赶抄的！", true, "野野口公寓");
+    
+    Clue* c2 = new Clue("clue_shadow", "树影破绽", 
+                         "录影带中八重樱的树影角度显示拍摄时间在上午10点左右，\n但野野口声称是深夜潜入。录影带是预拍的道具！", true, "日高家客厅");
+    
+    Clue* c3 = new Clue("clue_poison", "杀猫真相", 
+                         "野野口在杀人前三周就购买了山埃，\n毒死邻居的猫就是为了嫁祸日高的人格！", true, "社区药局");
+    
+    Clue* c4 = new Clue("clue_school", "中学真相", 
+                         "中学时代被欺负得最惨的是日高，\n野野口是跟着施暴者一起欺辱日高的帮凶！", true, "旧中学");
+    
+    Clue* c5 = new Clue("clue_letter", "母亲信件", 
+                         "野野口母亲的信中充满对日高家的鄙夷：\n「那家人低贱，不配和我儿子做朋友。」\n「日高那孩子怎么可能比我儿子优秀？」", true, "日高旧居");
+
+    // 设置线索组合关系
+    c1->addCombineTarget("clue_shadow");
+    c2->addCombineTarget("clue_handwriting");
+    c3->addCombineTarget("clue_school");
+    c4->addCombineTarget("clue_letter");
+    c5->addCombineTarget("clue_school");
+
+    // 将所有线索添加到笔记本
+    notebook->addClue(c1);
+    notebook->addClue(c2);
+    notebook->addClue(c3);
+    notebook->addClue(c4);
+    notebook->addClue(c5);
 
     currentRoom = policeOffice;
 
@@ -71,10 +105,7 @@ void Game::processCommand(const string& input) {
             break;
 
         case CommandType::EXAMINE:
-            if (cmd.arg.empty())
-                cout << "请指定要检查的物品，例如：examine 纸镇" << endl;
-            else
-                cout << "你仔细检查了 " << cmd.arg << "。（功能开发中...）" << endl;
+            examine(cmd.arg);
             break;
 
         case CommandType::TALK:
@@ -82,11 +113,15 @@ void Game::processCommand(const string& input) {
             break;
 
         case CommandType::THINK:
-            cout << "你整理了思路...（功能开发中...）" << endl;
+            think();
             break;
 
         case CommandType::NOTEBOOK:
-            cout << "侦探笔记：（功能开发中...）" << endl;
+            showNotebook();
+            break;
+
+        case CommandType::COMBINE:
+            combine(cmd.arg);
             break;
 
         case CommandType::SAVE:
@@ -152,6 +187,126 @@ void Game::talk(const string& npcName) {
         }
     }
     cout << "这里没有叫「" << target << "」的人。" << endl;
+}
+
+void Game::examine(const string& itemName) {
+    if (itemName.empty()) {
+        cout << "请指定要检查的物品，例如：examine 纸镇" << endl;
+        return;
+    }
+
+    if (itemName.find("手稿") != string::npos || itemName.find("稿纸") != string::npos) {
+        Clue* clue = notebook->getClue("clue_handwriting");
+        if (clue) {
+            cout << clue->getDescription() << endl;
+            cout << "【已记录到侦探笔记】" << endl;
+        }
+    } else if (itemName.find("录影带") != string::npos || itemName.find("录像带") != string::npos) {
+        Clue* clue = notebook->getClue("clue_shadow");
+        if (clue) {
+            cout << clue->getDescription() << endl;
+            cout << "【已记录到侦探笔记】" << endl;
+        }
+    } else if (itemName.find("药") != string::npos || itemName.find("毒") != string::npos) {
+        Clue* clue = notebook->getClue("clue_poison");
+        if (clue) {
+            cout << clue->getDescription() << endl;
+            cout << "【已记录到侦探笔记】" << endl;
+        }
+    } else {
+        cout << "你检查了「" << itemName << "」，但没有发现特别的线索。" << endl;
+    }
+}
+
+void Game::think() {
+    cout << "你闭上眼，重新梳理了所有线索……" << endl;
+    cout << endl;
+
+    vector<Clue*> keyClues = notebook->getKeyClues();
+    if (keyClues.empty()) {
+        cout << "目前还没有收集到关键破绽。继续调查吧。" << endl;
+        return;
+    }
+
+    cout << "目前已收集的关键破绽（" << keyClues.size() << " / 5）：" << endl;
+    for (Clue* clue : keyClues) {
+        cout << "  - " << clue->getName() << endl;
+    }
+
+    if (keyClues.size() >= 4) {
+        cout << endl << "你感觉真相已经很近了……" << endl;
+        cout << "也许该去和野野口修当面对质了。" << endl;
+    } else {
+        cout << endl << "线索还不够充分，继续调查吧。" << endl;
+    }
+}
+
+void Game::showNotebook() {
+    cout << "========== 侦探笔记 ==========" << endl;
+    vector<Clue*> allClues = notebook->getAllClues();
+    if (allClues.empty()) {
+        cout << "笔记本是空的。" << endl;
+        return;
+    }
+
+    cout << "已收集线索：" << allClues.size() << " 条" << endl;
+    cout << "关键破绽：" << notebook->getKeyClueCount() << " / 5" << endl;
+    cout << endl;
+
+    for (Clue* clue : allClues) {
+        cout << "【" << clue->getName() << "】" << endl;
+        cout << "  发现地点：" << clue->getLocation() << endl;
+        cout << "  详情：" << clue->getDescription() << endl;
+        cout << endl;
+    }
+
+    cout << "==============================" << endl;
+}
+
+void Game::combine(const string& args) {
+    if (args.empty()) {
+        cout << "请指定要组合的线索，例如：combine 手写稿破绽+树影破绽" << endl;
+        return;
+    }
+
+    size_t pos = args.find('+');
+    if (pos == string::npos) {
+        cout << "请用 + 连接两个线索，例如：combine 手写稿破绽+树影破绽" << endl;
+        return;
+    }
+
+    string name1 = args.substr(0, pos);
+    string name2 = args.substr(pos + 1);
+    while (!name1.empty() && name1.front() == ' ') name1.erase(0, 1);
+    while (!name1.empty() && name1.back() == ' ') name1.pop_back();
+    while (!name2.empty() && name2.front() == ' ') name2.erase(0, 1);
+    while (!name2.empty() && name2.back() == ' ') name2.pop_back();
+
+    Clue* c1 = nullptr;
+    Clue* c2 = nullptr;
+    for (Clue* clue : notebook->getAllClues()) {
+        if (clue->getName() == name1) c1 = clue;
+        if (clue->getName() == name2) c2 = clue;
+    }
+
+    if (c1 == nullptr || c2 == nullptr) {
+        cout << "没有找到指定的线索。" << endl;
+        return;
+    }
+
+    if (notebook->combine(c1->getId(), c2->getId())) {
+        string inference = "组合「" + name1 + "」和「" + name2 + "」：\n";
+        inference += "你发现了新的推理！";
+        notebook->addInference(inference);
+        cout << inference << endl;
+
+        if (notebook->getKeyClueCount() >= 4) {
+            cout << endl << "⚠️ 你已收集到足够证据！" << endl;
+            cout << "输入 talk 野野口 可以开始对质。" << endl;
+        }
+    } else {
+        cout << "这两个线索似乎无法组合。" << endl;
+    }
 }
 
 Room* Game::getCurrentRoom() const {
