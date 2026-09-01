@@ -1,0 +1,16 @@
+.vs/
+out/
+*.bak_*
+*_patch.cpp
+*_pretty.cpp
+fix_*.txt
+fix_*.sh
+build/
+*.exe
+*.obj
+*.pdb
+*.ilk
+Debug/
+Release/
+CMakeCache.txt
+CMakeFiles/
