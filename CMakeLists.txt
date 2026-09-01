@@ -9,4 +9,6 @@ file(GLOB_RECURSE SOURCES "src/*.cpp")
 
 add_executable(MaliceMUD ${SOURCES})
 
+target_compile_options(MaliceMUD PRIVATE /utf-8)
+
 target_include_directories(MaliceMUD PRIVATE src)
