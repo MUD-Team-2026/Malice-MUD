@@ -133,11 +133,13 @@ CMakeFiles/MaliceMUD.dir/src/core/Game.cpp.o: \
  /home/alienare/Malice-MUD/src/npc/NPC.h \
  /home/alienare/Malice-MUD/src/entities/Character.h \
  /home/alienare/Malice-MUD/src/core/CommandParser.h \
+ /home/alienare/Malice-MUD/src/core/SaveManager.h \
  /home/alienare/Malice-MUD/src/clues/Notebook.h \
  /home/alienare/Malice-MUD/src/clues/Clue.h \
  /home/alienare/Malice-MUD/src/entities/Entity.h \
  /home/alienare/Malice-MUD/src/clues/Judge.h \
  /home/alienare/Malice-MUD/src/clues/Notebook.h \
+ /home/alienare/Malice-MUD/src/npc/OtherNPC.h \
  /usr/include/c++/15/iostream /usr/include/c++/15/ostream \
  /usr/include/c++/15/bits/ostream.h /usr/include/c++/15/ios \
  /usr/include/c++/15/exception /usr/include/c++/15/bits/exception_ptr.h \
@@ -183,4 +185,4 @@ CMakeFiles/MaliceMUD.dir/src/core/Game.cpp.o: \
  /usr/include/c++/15/bits/locale_facets.tcc \
  /usr/include/c++/15/bits/basic_ios.tcc \
  /usr/include/c++/15/bits/ostream.tcc /usr/include/c++/15/istream \
- /usr/include/c++/15/bits/istream.tcc
+ /usr/include/c++/15/bits/istream.tcc /usr/include/c++/15/ctime

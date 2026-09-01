@@ -489,6 +489,30 @@ src/npc/NPC.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/MaliceMUD.dir/build.make CMakeFiles/MaliceMUD.dir/src/npc/NPC.cpp.s
 .PHONY : src/npc/NPC.cpp.s
 
+src/npc/OtherNPC.o: src/npc/OtherNPC.cpp.o
+.PHONY : src/npc/OtherNPC.o
+
+# target to build an object file
+src/npc/OtherNPC.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MaliceMUD.dir/build.make CMakeFiles/MaliceMUD.dir/src/npc/OtherNPC.cpp.o
+.PHONY : src/npc/OtherNPC.cpp.o
+
+src/npc/OtherNPC.i: src/npc/OtherNPC.cpp.i
+.PHONY : src/npc/OtherNPC.i
+
+# target to preprocess a source file
+src/npc/OtherNPC.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MaliceMUD.dir/build.make CMakeFiles/MaliceMUD.dir/src/npc/OtherNPC.cpp.i
+.PHONY : src/npc/OtherNPC.cpp.i
+
+src/npc/OtherNPC.s: src/npc/OtherNPC.cpp.s
+.PHONY : src/npc/OtherNPC.s
+
+# target to generate assembly for a file
+src/npc/OtherNPC.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MaliceMUD.dir/build.make CMakeFiles/MaliceMUD.dir/src/npc/OtherNPC.cpp.s
+.PHONY : src/npc/OtherNPC.cpp.s
+
 src/npc/Suspect.o: src/npc/Suspect.cpp.o
 .PHONY : src/npc/Suspect.o
 
@@ -567,6 +591,9 @@ help:
 	@echo "... src/npc/NPC.o"
 	@echo "... src/npc/NPC.i"
 	@echo "... src/npc/NPC.s"
+	@echo "... src/npc/OtherNPC.o"
+	@echo "... src/npc/OtherNPC.i"
+	@echo "... src/npc/OtherNPC.s"
 	@echo "... src/npc/Suspect.o"
 	@echo "... src/npc/Suspect.i"
 	@echo "... src/npc/Suspect.s"

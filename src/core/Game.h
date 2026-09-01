@@ -30,6 +30,10 @@ private:
     bool gameOver;
     bool hasUsedLastLie;
     bool isInBattle;
+    bool foundSurface1;
+    bool foundSurface2;
+    bool trapTriggered;
+    bool choseContinue;
 
 public:
     Game();
@@ -50,9 +54,9 @@ public:
     void intimidate();
     void submitReport();
     void showMap();
-    void checkWeekTransition();
-    void suspectAttack();
-    void triggerLastLie();
+    void checkTrap();
+    void suspectTurn();
+    void startConfrontation();
     void endingScreen(const string& endingType);
     Room* getCurrentRoom() const;
 

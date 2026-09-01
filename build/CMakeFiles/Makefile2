@@ -81,12 +81,12 @@ clean: CMakeFiles/MaliceMUD.dir/clean
 CMakeFiles/MaliceMUD.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/MaliceMUD.dir/build.make CMakeFiles/MaliceMUD.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/MaliceMUD.dir/build.make CMakeFiles/MaliceMUD.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/alienare/Malice-MUD/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17 "Built target MaliceMUD"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/alienare/Malice-MUD/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18 "Built target MaliceMUD"
 .PHONY : CMakeFiles/MaliceMUD.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/MaliceMUD.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/alienare/Malice-MUD/build/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/alienare/Malice-MUD/build/CMakeFiles 18
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/MaliceMUD.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/alienare/Malice-MUD/build/CMakeFiles 0
 .PHONY : CMakeFiles/MaliceMUD.dir/rule

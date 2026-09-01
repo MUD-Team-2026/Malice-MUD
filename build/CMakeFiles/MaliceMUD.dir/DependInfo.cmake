@@ -23,6 +23,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/alienare/Malice-MUD/src/main.cpp" "CMakeFiles/MaliceMUD.dir/src/main.cpp.o" "gcc" "CMakeFiles/MaliceMUD.dir/src/main.cpp.o.d"
   "/home/alienare/Malice-MUD/src/npc/DialogTree.cpp" "CMakeFiles/MaliceMUD.dir/src/npc/DialogTree.cpp.o" "gcc" "CMakeFiles/MaliceMUD.dir/src/npc/DialogTree.cpp.o.d"
   "/home/alienare/Malice-MUD/src/npc/NPC.cpp" "CMakeFiles/MaliceMUD.dir/src/npc/NPC.cpp.o" "gcc" "CMakeFiles/MaliceMUD.dir/src/npc/NPC.cpp.o.d"
+  "/home/alienare/Malice-MUD/src/npc/OtherNPC.cpp" "CMakeFiles/MaliceMUD.dir/src/npc/OtherNPC.cpp.o" "gcc" "CMakeFiles/MaliceMUD.dir/src/npc/OtherNPC.cpp.o.d"
   "/home/alienare/Malice-MUD/src/npc/Suspect.cpp" "CMakeFiles/MaliceMUD.dir/src/npc/Suspect.cpp.o" "gcc" "CMakeFiles/MaliceMUD.dir/src/npc/Suspect.cpp.o.d"
   )
 

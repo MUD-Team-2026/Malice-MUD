@@ -29,6 +29,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/MaliceMUD.dir/src/npc/DialogTree.cpp.o.d"
   "CMakeFiles/MaliceMUD.dir/src/npc/NPC.cpp.o"
   "CMakeFiles/MaliceMUD.dir/src/npc/NPC.cpp.o.d"
+  "CMakeFiles/MaliceMUD.dir/src/npc/OtherNPC.cpp.o"
+  "CMakeFiles/MaliceMUD.dir/src/npc/OtherNPC.cpp.o.d"
   "CMakeFiles/MaliceMUD.dir/src/npc/Suspect.cpp.o"
   "CMakeFiles/MaliceMUD.dir/src/npc/Suspect.cpp.o.d"
   "MaliceMUD"
