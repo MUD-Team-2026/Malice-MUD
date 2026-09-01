@@ -3,13 +3,10 @@
 
 Notebook::Notebook() {}
 
-Notebook::~Notebook() {
-    // 线索由 Game 统一管理，这里不 delete
-}
+Notebook::~Notebook() {}
 
 void Notebook::addClue(Clue* clue) {
     if (clue == nullptr) return;
-    // 避免重复添加
     for (Clue* c : clues) {
         if (c->getId() == clue->getId()) return;
     }
@@ -49,7 +46,6 @@ bool Notebook::combine(const string& id1, const string& id2) {
     Clue* c2 = getClue(id2);
     if (c1 == nullptr || c2 == nullptr) return false;
 
-    // 检查是否可以组合
     if (!c1->canCombineWith(id2) && !c2->canCombineWith(id1)) {
         return false;
     }
@@ -75,4 +71,9 @@ int Notebook::getKeyClueCount() const {
         if (clue->getIsKey()) count++;
     }
     return count;
+}
+
+void Notebook::clear() {
+    clues.clear();
+    inferences.clear();
 }

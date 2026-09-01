@@ -1,0 +1,930 @@
+#include "Game.h"
+#include "npc/OtherNPC.h"
+#include <iostream>
+#include <vector>
+#include <cstdlib>
+#include <ctime>
+
+Game::Game() : currentRoom(nullptr), suspect(nullptr), notebook(nullptr), judge(nullptr), 
+               isRunning(false), week(1), playerMental(100), suspectMental(100),
+               insight(30), intuition(30), examineCount(0),
+               hasSubmittedReport(false), gameOver(false), hasUsedLastLie(false), isInBattle(false),
+               foundSurface1(false), foundSurface2(false), trapTriggered(false), choseContinue(false) {
+    srand(time(0));
+}
+
+Game::~Game() {}
+
+void Game::init() {
+    Room* policeOffice = new Room("police", "警视厅搜查一課", "你站在警视厅的办公室里，桌上堆满了案件档案。");
+    Room* study = new Room("study", "日高家书房", "书架上摆满了日高的作品。桌上有一个沾血的铜制纸镇。窗外可以看到院子里的八重樱。");
+    Room* livingRoom = new Room("living", "日高家客厅", "客厅里有一台电视和一盘录像带。");
+    Room* suspectHome = new Room("suspect_home", "野野口公寓", "房间里凌乱不堪，桌上堆满手写稿纸。一台打字机放在角落。");
+    Room* oldSchool = new Room("old_school", "旧中学", "荒废的校园，操场上长满了杂草。教学楼里空无一人。");
+    Room* oldHouse = new Room("old_house", "日高旧居", "日高家以前的房子，已经很久没人住了。积满灰尘的房间里留有一些旧物。");
+    Room* pharmacy = new Room("pharmacy", "社区药局", "一家小药局，柜台上摆满了各种药品。老板正在整理货架。");
+
+    policeOffice->addExit("书房", study);
+
+    study->addExit("客厅", livingRoom);
+    study->addExit("警视厅", policeOffice);
+
+    livingRoom->addExit("书房", study);
+    livingRoom->addExit("公寓", suspectHome);
+
+    suspectHome->addExit("客厅", livingRoom);
+    suspectHome->addExit("旧中学", oldSchool);
+    suspectHome->addExit("药局", pharmacy);
+
+    oldSchool->addExit("公寓", suspectHome);
+    suspectHome->addExit("旧居", oldHouse);
+
+    oldHouse->addExit("旧中学", oldSchool);
+
+    pharmacy->addExit("公寓", suspectHome);
+
+    rooms["police"] = policeOffice;
+    rooms["study"] = study;
+    rooms["living"] = livingRoom;
+    rooms["suspect_home"] = suspectHome;
+    rooms["old_school"] = oldSchool;
+    rooms["old_house"] = oldHouse;
+    rooms["pharmacy"] = pharmacy;
+
+    suspect = new Suspect("suspect", "野野口修", "一个看起来谦卑懦弱的中年男人。");
+    suspect->setLying(true);
+    study->addNPC(suspect);
+
+    Reiko* reiko = new Reiko("reiko", "理惠", "日高邦彦的遗孀，看起来十分悲伤。");
+    livingRoom->addNPC(reiko);
+
+    Teacher* teacher = new Teacher("teacher", "老师", "一位白发苍苍的老人，日高和野野口中学时的老师。");
+    oldSchool->addNPC(teacher);
+
+    Fujio* fujio = new Fujio("fujio", "藤尾", "当年校园霸凌的受害者，至今仍有阴影。");
+    oldSchool->addNPC(fujio);
+
+    Neighbor* neighbor = new Neighbor("neighbor", "邻居太太", "住在日高家隔壁的中年妇女，看起来很气愤。");
+    livingRoom->addNPC(neighbor);
+
+    Pharmacist* pharmacist = new Pharmacist("pharmacist", "药店老板", "药局的老板，看起来是个老实人。");
+    pharmacy->addNPC(pharmacist);
+
+    notebook = new Notebook();
+    judge = new Judge(notebook);
+
+    currentRoom = policeOffice;
+    week = 1;
+    playerMental = 100;
+    suspectMental = 100;
+    insight = 30;
+    intuition = 30;
+    examineCount = 0;
+    hasSubmittedReport = false;
+    gameOver = false;
+    hasUsedLastLie = false;
+    isInBattle = false;
+    foundSurface1 = false;
+    foundSurface2 = false;
+    trapTriggered = false;
+    choseContinue = false;
+
+    cout << "游戏初始化完成！" << endl;
+}
+
+void Game::run() {
+    isRunning = true;
+    cout << "═══════════════════════════════════════" << endl;
+    cout << "        🕵️《恶意》— 加贺恭一郎的调查" << endl;
+    cout << "═══════════════════════════════════════" << endl;
+    cout << endl;
+    cout << "知名作家日高邦彦被发现在家中书房被杀。" << endl;
+    cout << "凶手已投案自首——是他的好友，野野口修。" << endl;
+    cout << endl;
+    cout << "「人是我杀的。」野野口修说。" << endl;
+    cout << "「但我有我的苦衷。」" << endl;
+    cout << endl;
+    cout << "你看得出来，事情没有这么简单。" << endl;
+    cout << "输入 help 查看指令。" << endl;
+    cout << endl;
+
+    look();
+
+    string input;
+    while (isRunning && !gameOver) {
+        cout << "> ";
+        getline(cin, input);
+        processCommand(input);
+    }
+}
+
+void Game::processCommand(const string& input) {
+    Command cmd = parser.parse(input);
+
+    switch (cmd.type) {
+        case CommandType::HELP:
+            cout << parser.getHelp() << endl;
+            break;
+        case CommandType::QUIT:
+            cout << "退出游戏。" << endl;
+            isRunning = false;
+            break;
+        case CommandType::GO:
+            go(cmd.arg);
+            break;
+        case CommandType::LOOK:
+            look();
+            break;
+        case CommandType::EXAMINE:
+            examine(cmd.arg);
+            break;
+        case CommandType::TALK:
+            talk(cmd.arg);
+            break;
+        case CommandType::THINK:
+            think();
+            break;
+        case CommandType::NOTEBOOK:
+            showNotebook();
+            break;
+        case CommandType::COMBINE:
+            combine(cmd.arg);
+            break;
+        case CommandType::QUESTION:
+            question(cmd.arg);
+            break;
+        case CommandType::MEDITATE:
+            meditate();
+            break;
+        case CommandType::INTIMIDATE:
+            intimidate();
+            break;
+        case CommandType::REPORT:
+            submitReport();
+            break;
+        case CommandType::MAP:
+            showMap();
+            break;
+        case CommandType::SAVE:
+            saveManager.save(this);
+            break;
+        case CommandType::LOAD:
+            saveManager.load(this);
+            break;
+        default:
+            if (!input.empty()) {
+                cout << "未知命令，输入 help 查看帮助。" << endl;
+            }
+            break;
+    }
+}
+
+void Game::go(const string& direction) {
+    if (direction.empty()) {
+        cout << "请指定方向，例如：go 书房" << endl;
+        return;
+    }
+    Room* nextRoom = currentRoom->getExit(direction);
+    if (nextRoom == nullptr) {
+        cout << "没有通往「" << direction << "」的出口。" << endl;
+        return;
+    }
+    currentRoom = nextRoom;
+    look();
+}
+
+void Game::look() {
+    if (currentRoom == nullptr) {
+        cout << "你不在任何地方。" << endl;
+        return;
+    }
+    cout << currentRoom->getFullDescription() << endl;
+}
+
+void Game::talk(const string& npcName) {
+    if (gameOver) {
+        cout << "游戏已结束，输入 quit 退出。" << endl;
+        return;
+    }
+    if (npcName.empty()) {
+        cout << "请指定要对话的人，例如：talk 野野口" << endl;
+        return;
+    }
+    string target = npcName;
+    while (!target.empty() && target.front() == ' ') target.erase(0, 1);
+    while (!target.empty() && target.back() == ' ') target.pop_back();
+
+    vector<NPC*> npcs = currentRoom->getNPCs();
+    for (NPC* npc : npcs) {
+        string npcNameStr = npc->getName();
+        while (!npcNameStr.empty() && npcNameStr.front() == ' ') npcNameStr.erase(0, 1);
+        while (!npcNameStr.empty() && npcNameStr.back() == ' ') npcNameStr.pop_back();
+        if (npcNameStr == target) {
+            cout << npc->getFirstDialog() << endl;
+            return;
+        }
+    }
+    cout << "这里没有叫「" << target << "」的人。" << endl;
+}
+
+void Game::examine(const string& itemName) {
+    if (gameOver) {
+        cout << "游戏已结束，输入 quit 退出。" << endl;
+        return;
+    }
+    if (itemName.empty()) {
+        cout << "请指定要检查的物品。" << endl;
+        return;
+    }
+
+    examineCount++;
+    
+    if (examineCount >= 3 && insight < 70) {
+        insight += 5;
+        cout << "【洞察力提升！】你的观察越来越敏锐了。" << endl;
+    }
+    
+    if (examineCount >= 2 && intuition < 70) {
+        intuition += 3;
+    }
+
+    string item = itemName;
+    while (!item.empty() && item.front() == ' ') item.erase(0, 1);
+    while (!item.empty() && item.back() == ' ') item.pop_back();
+
+    // ===== 淺層證據：手寫稿 =====
+    if (item.find("手稿") != string::npos) {
+        if (!notebook->hasClue("clue_handwriting_surface")) {
+            cout << "这些手稿是日高所有作品的原始手稿，笔迹经鉴定是野野口的。" << endl;
+            cout << "看起来野野口确实是日高的影子写手……" << endl;
+            cout << "【已记录：手写稿】" << endl;
+            notebook->addClue(new Clue("clue_handwriting_surface", "手写稿（表面证据）", 
+                               "野野口的手稿笔迹鉴定为日高作品的原始手稿。", false, "野野口公寓"));
+            foundSurface1 = true;
+            checkTrap();
+        } else {
+            cout << "你已经记录过这个线索了。" << endl;
+        }
+        return;
+    }
+
+    // ===== 淺層證據：錄影帶 =====
+    if (item.find("录影带") != string::npos || item.find("录像带") != string::npos) {
+        if (!notebook->hasClue("clue_shadow_surface")) {
+            cout << "你看到了录影带的内容：野野口深夜潜入日高家书房翻找东西。" << endl;
+            cout << "「他拍下我潜入的画面，用这个威胁我当他的影子写手……」" << endl;
+            cout << "【已记录：录影带】" << endl;
+            notebook->addClue(new Clue("clue_shadow_surface", "录影带（表面证据）", 
+                               "录影带显示野野口深夜潜入日高家书房。", false, "日高家客厅"));
+            foundSurface2 = true;
+            checkTrap();
+        } else {
+            cout << "你已经记录过这个线索了。" << endl;
+        }
+        return;
+    }
+
+    // ===== 如果還沒解鎖二週目 =====
+    if (!choseContinue) {
+        cout << "你检查了「" << item << "」，但没有发现特别的线索。" << endl;
+        return;
+    }
+
+    // ===== 深層證據 =====
+    bool foundDeep = false;
+    
+    if (item.find("打字机") != string::npos) {
+        if (!notebook->hasClue("clue_typewriter")) {
+            cout << "这是一台电动打字机，键盘很新，几乎没有磨损。" << endl;
+            cout << "说明野野口平日主要用打字机写作，而不是手写。" << endl;
+            cout << "那他的手写稿是哪来的？" << endl;
+            cout << "【已记录：打字机破绽】" << endl;
+            notebook->addClue(new Clue("clue_typewriter", "打字机破绽", 
+                               "野野口平日用打字机写作，却拿出了大量手写稿。", true, "野野口公寓"));
+            foundDeep = true;
+        } else {
+            cout << "你已经记录过这个线索了。" << endl;
+        }
+    } else if (item.find("樱花") != string::npos || item.find("树影") != string::npos || item.find("八重樱") != string::npos) {
+        if (!notebook->hasClue("clue_shadow_deep")) {
+            cout << "八重樱正值盛开，树影落在窗台上。" << endl;
+            cout << "你注意到树影的角度——这似乎是上午10点左右的光线。" << endl;
+            cout << "但录影带里是深夜……这卷录影带是在上午拍的！" << endl;
+            cout << "【已记录：树影破绽】" << endl;
+            notebook->addClue(new Clue("clue_shadow_deep", "树影破绽", 
+                               "录影带的树影角度显示拍摄时间在上午10点，不是深夜。", true, "日高家书房"));
+            foundDeep = true;
+        } else {
+            cout << "你已经记录过这个线索了。" << endl;
+        }
+    } else if (item.find("山埃") != string::npos || item.find("毒药") != string::npos || item.find("毒") != string::npos) {
+        if (!notebook->hasClue("clue_poison")) {
+            cout << "药店老板记录显示：野野口上个月15号购买了山埃，说是家里有老鼠。" << endl;
+            cout << "邻居的猫三周前被毒死，毒物正是山埃。" << endl;
+            cout << "野野口在杀人前就买了毒药！" << endl;
+            cout << "【已记录：杀猫真相】" << endl;
+            notebook->addClue(new Clue("clue_poison", "杀猫真相", 
+                               "野野口提前三周购买山埃毒死邻居的猫嫁祸日高。", true, "社区药局"));
+            foundDeep = true;
+        } else {
+            cout << "你已经记录过这个线索了。" << endl;
+        }
+    } else if (item.find("毕业册") != string::npos || item.find("毕业纪念册") != string::npos) {
+        if (!notebook->hasClue("clue_school")) {
+            cout << "你翻开毕业纪念册，看到了当年的照片。" << endl;
+            cout << "野野口和施暴者站在一起，日高孤独地站在角落。" << endl;
+            cout << "【已记录：中学真相】" << endl;
+            notebook->addClue(new Clue("clue_school", "中学真相", 
+                               "野野口是校园霸凌的帮凶，日高是被霸凌者。", true, "旧中学"));
+            foundDeep = true;
+        } else {
+            cout << "你已经记录过这个线索了。" << endl;
+        }
+    } else if (item.find("信") != string::npos || item.find("信件") != string::npos) {
+        if (!notebook->hasClue("clue_letter")) {
+            cout << "你找到了野野口母亲留下的信件：" << endl;
+            cout << "「那家人低贱，不配和我儿子做朋友。」" << endl;
+            cout << "「日高那孩子怎么可能比我儿子优秀？」" << endl;
+            cout << "「我真恨不得他们一家都消失。」" << endl;
+            cout << "【已记录：母亲信件】" << endl;
+            notebook->addClue(new Clue("clue_letter", "母亲信件", 
+                               "野野口母亲对日高家充满鄙夷和仇恨。", true, "日高旧居"));
+            foundDeep = true;
+        } else {
+            cout << "你已经记录过这个线索了。" << endl;
+        }
+    } else {
+        cout << "你检查了「" << item << "」，但没有发现特别的线索。" << endl;
+        return;
+    }
+
+    // ===== 二週目：找到深層證據後詢問 =====
+    if (foundDeep && week == 2 && !gameOver) {
+        int keyCount = notebook->getKeyClueCount();
+        cout << endl;
+        cout << "═══════════════════════════════════════" << endl;
+        cout << "📋 你找到了新的证据！" << endl;
+        cout << "═══════════════════════════════════════" << endl;
+        cout << endl;
+        cout << "  [1] 提交结案报告" << endl;
+        cout << "  [2] 与野野口修当面对质" << endl;
+        cout << "  [3] 继续调查" << endl;
+        cout << endl;
+        cout << "请输入 1、2 或 3：";
+        
+        string choice;
+        getline(cin, choice);
+        
+        while (choice != "1" && choice != "2" && choice != "3") {
+            cout << "请输入 1、2 或 3：";
+            getline(cin, choice);
+        }
+        
+        if (choice == "1") {
+            submitReport();
+            return;
+        } else if (choice == "2") {
+            cout << endl;
+            cout << "═══════════════════════════════════════" << endl;
+            cout << "⚔️ 你决定与野野口修当面对质！" << endl;
+            cout << "═══════════════════════════════════════" << endl;
+            cout << endl;
+            startConfrontation();
+            return;
+        } else {
+            cout << endl;
+            cout << "你决定继续调查。" << endl;
+        }
+    }
+}
+
+void Game::checkTrap() {
+    if (trapTriggered) return;
+    
+    if (foundSurface1 && foundSurface2 && week == 1) {
+        trapTriggered = true;
+        cout << endl;
+        cout << "═══════════════════════════════════════" << endl;
+        cout << "📋 你已经掌握了一些证据。" << endl;
+        cout << "═══════════════════════════════════════" << endl;
+        cout << endl;
+        cout << "你找到了手写稿和录影带。" << endl;
+        cout << "野野口修承认杀人的动机看起来已经明确了。" << endl;
+        cout << endl;
+        cout << "═══════════════════════════════════════" << endl;
+        cout << "  [1] 结案" << endl;
+        cout << "  [2] 继续调查" << endl;
+        cout << "═══════════════════════════════════════" << endl;
+        cout << endl;
+        cout << "请输入 1 或 2：";
+        
+        string choice;
+        getline(cin, choice);
+        
+        while (choice != "1" && choice != "2") {
+            cout << "请输入 1 或 2：";
+            getline(cin, choice);
+        }
+        
+        if (choice == "1") {
+            cout << endl;
+            cout << "你选择了结案。" << endl;
+            cout << "═══════════════════════════════════════" << endl;
+            cout << "【Bad Ending - 草率结案】" << endl;
+            cout << "你轻信了野野口修的谎言，草草结案。" << endl;
+            cout << "日高邦彦名誉扫地，野野口修的阴谋得逞。" << endl;
+            cout << "数年后，你发现了真相，但为时已晚……" << endl;
+            cout << endl;
+            cout << "「先入为主的恶意，比杀人更可怕。」" << endl;
+            cout << "═══════════════════════════════════════" << endl;
+            gameOver = true;
+            isRunning = false;
+            return;
+        } else {
+            cout << endl;
+            cout << "你决定继续调查。" << endl;
+            cout << "═══════════════════════════════════════" << endl;
+            cout << "🔍 你开始重新审视这个案件。" << endl;
+            cout << "═══════════════════════════════════════" << endl;
+            cout << endl;
+            
+            week = 2;
+            choseContinue = true;
+            suspect->setLying(false);
+        }
+    }
+}
+
+void Game::startConfrontation() {
+    int keyCount = notebook->getKeyClueCount();
+    
+    if (keyCount < 5) {
+        cout << "野野口修冷笑道：「就凭这点证据？你太天真了！」" << endl;
+        return;
+    }
+
+    if (!isInBattle) {
+        isInBattle = true;
+        cout << endl;
+        cout << "═══════════════════════════════════════" << endl;
+        cout << "⚔️ 进入对质战斗！" << endl;
+        cout << "═══════════════════════════════════════" << endl;
+        cout << "野野口修的心理防线：" << suspectMental << " / 100" << endl;
+        cout << "你的心理防线：" << playerMental << " / 100" << endl;
+        cout << endl;
+        cout << "输入「质问 <线索名>」来出示证据。" << endl;
+        cout << "输入「沉思」恢复心理防线。" << endl;
+        cout << "输入「威吓」削弱野野口。" << endl;
+        cout << endl;
+        return;
+    }
+}
+
+void Game::question(const string& clueName) {
+    if (gameOver) {
+        cout << "游戏已结束，输入 quit 退出。" << endl;
+        return;
+    }
+    if (!isInBattle) {
+        cout << "你还没有开始对质。" << endl;
+        return;
+    }
+    if (clueName.empty()) {
+        cout << "请指定要出示的线索。" << endl;
+        return;
+    }
+    
+    int keyCount = notebook->getKeyClueCount();
+    if (keyCount < 5) {
+        cout << "野野口修冷笑道：「就凭这点证据？你太天真了！」" << endl;
+        return;
+    }
+
+    string target = clueName;
+    while (!target.empty() && target.front() == ' ') target.erase(0, 1);
+    while (!target.empty() && target.back() == ' ') target.pop_back();
+
+    Clue* clue = nullptr;
+    for (Clue* c : notebook->getAllClues()) {
+        string name = c->getName();
+        while (!name.empty() && name.front() == ' ') name.erase(0, 1);
+        while (!name.empty() && name.back() == ' ') name.pop_back();
+        if (name == target || c->getId() == target) {
+            clue = c;
+            break;
+        }
+    }
+    if (clue == nullptr) {
+        cout << "你没有找到「" << target << "」这个线索。" << endl;
+        return;
+    }
+
+    int damage = 20;
+    suspectMental -= damage;
+    if (suspectMental < 0) suspectMental = 0;
+
+    cout << "你拿出证据：「" << clue->getName() << "」" << endl;
+    cout << "「野野口先生，请解释一下！」" << endl;
+    cout << endl;
+    cout << clue->getDescription() << endl;
+    cout << endl;
+    cout << "野野口修的脸色变得苍白！" << endl;
+    cout << "野野口修的心理防线受到 " << damage << " 点伤害！" << endl;
+    cout << "剩余心理防线：" << suspectMental << " / 100" << endl;
+
+    if (suspectMental == 0) {
+        cout << endl;
+        cout << "═══════════════════════════════════════" << endl;
+        cout << "野野口修低下了头，沉默了很长时间。" << endl;
+        cout << "最后，他抬起头，面无表情地说了一句：" << endl;
+        cout << endl;
+        cout << "「我就是看他不爽。」" << endl;
+        cout << endl;
+        cout << "这就是全部的动机。" << endl;
+        cout << "没有情仇，没有胁迫，没有影子写手。" << endl;
+        cout << "只是从中学时代开始，日复一日、年复一年的……恶意。" << endl;
+        cout << "═══════════════════════════════════════" << endl;
+        cout << endl;
+        endingScreen("HE");
+        return;
+    }
+
+    if (suspectMental < 30 && !hasUsedLastLie && week == 2) {
+        hasUsedLastLie = true;
+        cout << endl;
+        cout << "═══════════════════════════════════════" << endl;
+        cout << "💀 野野口修进入了「崩溃边缘」！" << endl;
+        cout << "═══════════════════════════════════════" << endl;
+        cout << endl;
+    }
+
+    if (suspectMental > 0) {
+        suspectTurn();
+    }
+
+    if (playerMental == 0) {
+        cout << endl;
+        cout << "你感到一阵眩晕……野野口的狡辩让你动摇了。" << endl;
+        cout << "你败诉了……" << endl;
+        endingScreen("NE");
+    }
+}
+
+void Game::suspectTurn() {
+    cout << endl;
+    cout << "野野口修开始反击……" << endl;
+
+    int action = rand() % 3;
+    
+    if (suspectMental < 30 && !hasUsedLastLie) {
+        action = 2;
+    }
+
+    int healAmount = 0;
+    int attackDamage = 0;
+
+    switch (action) {
+        case 0:
+            healAmount = 10;
+            attackDamage = 15;
+            cout << "野野口修狡辩道：「那只是巧合！你不能证明什么！」" << endl;
+            cout << "他的狡辩让他恢复了 " << healAmount << " 点心理防线。" << endl;
+            break;
+        case 1:
+            healAmount = 15;
+            attackDamage = 10;
+            cout << "野野口修突然哭了起来：「你知道我有多痛苦吗？！」" << endl;
+            cout << "你有些动摇了……他恢复了 " << healAmount << " 点心理防线。" << endl;
+            break;
+        case 2:
+            if (suspectMental < 30 && !hasUsedLastLie) {
+                hasUsedLastLie = true;
+                healAmount = 20;
+                attackDamage = 25;
+                cout << "⚠️ 野野口修发动了「最后的谎言」！" << endl;
+                cout << "「你永远无法证明！日高他就是个恶霸！」" << endl;
+                cout << "他孤注一掷，恢复了 " << healAmount << " 点心理防线！" << endl;
+            } else {
+                healAmount = 10;
+                attackDamage = 15;
+                cout << "野野口修愤怒地喊道：「你凭什么这样质问我？！」" << endl;
+            }
+            break;
+    }
+
+    suspectMental += healAmount;
+    if (suspectMental > 100) suspectMental = 100;
+    cout << "野野口修剩余心理防线：" << suspectMental << " / 100" << endl;
+
+    playerMental -= attackDamage;
+    if (playerMental < 0) playerMental = 0;
+    cout << "你的心理防线受到 " << attackDamage << " 点伤害！" << endl;
+    cout << "你的剩余心理防线：" << playerMental << " / 100" << endl;
+}
+
+void Game::meditate() {
+    if (gameOver) {
+        cout << "游戏已结束，输入 quit 退出。" << endl;
+        return;
+    }
+    if (!isInBattle) {
+        cout << "你还没有开始对质。" << endl;
+        return;
+    }
+    
+    int recover = 15 + rand() % 10;
+    playerMental += recover;
+    if (playerMental > 100) playerMental = 100;
+    cout << "你闭上眼，深呼吸，重新整理思绪……" << endl;
+    cout << "你的心理防线恢复了 " << recover << " 点。" << endl;
+    cout << "当前心理防线：" << playerMental << " / 100" << endl;
+    
+    if (suspectMental > 0 && isInBattle) {
+        cout << endl << "野野口修趁你分心，发动了攻击！" << endl;
+        suspectTurn();
+    }
+}
+
+void Game::intimidate() {
+    if (gameOver) {
+        cout << "游戏已结束，输入 quit 退出。" << endl;
+        return;
+    }
+    if (!isInBattle) {
+        cout << "你还没有开始对质。" << endl;
+        return;
+    }
+    
+    cout << "你厉声道：「野野口先生，你的故事漏洞百出！」" << endl;
+    cout << "「你以为你能骗过所有人吗？」" << endl;
+    cout << endl;
+    
+    int damage = 10 + rand() % 10;
+    suspectMental -= damage;
+    if (suspectMental < 0) suspectMental = 0;
+    cout << "野野口修被你的气势震慑住了！" << endl;
+    cout << "心理防线受到 " << damage << " 点伤害！" << endl;
+    cout << "剩余心理防线：" << suspectMental << " / 100" << endl;
+    
+    if (suspectMental == 0) {
+        cout << endl;
+        cout << "═══════════════════════════════════════" << endl;
+        cout << "野野口修终于崩溃了……" << endl;
+        cout << "他低声说道：「我就是看他不爽。」" << endl;
+        cout << "═══════════════════════════════════════" << endl;
+        endingScreen("HE");
+        return;
+    }
+    
+    cout << endl << "野野口修试图狡辩，但你的气势让他说话结巴！" << endl;
+    int healAmount = 5 + rand() % 5;
+    int attackDamage = 10 + rand() % 10;
+    suspectMental += healAmount;
+    if (suspectMental > 100) suspectMental = 100;
+    cout << "野野口修勉强恢复了 " << healAmount << " 点心理防线。" << endl;
+    cout << "剩余心理防线：" << suspectMental << " / 100" << endl;
+    
+    playerMental -= attackDamage;
+    if (playerMental < 0) playerMental = 0;
+    cout << "你的心理防线受到 " << attackDamage << " 点伤害！" << endl;
+    cout << "你的剩余心理防线：" << playerMental << " / 100" << endl;
+    
+    if (playerMental == 0) {
+        cout << endl;
+        cout << "你感到一阵眩晕……野野口的狡辩让你动摇了。" << endl;
+        cout << "你败诉了……" << endl;
+        endingScreen("NE");
+    }
+}
+
+void Game::think() {
+    if (gameOver) {
+        cout << "游戏已结束，输入 quit 退出。" << endl;
+        return;
+    }
+    cout << "你闭上眼，重新梳理了所有线索……" << endl;
+    cout << endl;
+    
+    if (trapTriggered && !choseContinue && week == 1) {
+        cout << "你还在犹豫是否要结案……" << endl;
+        cout << "输入 report 提交结案报告，或继续调查。" << endl;
+        return;
+    }
+    
+    int keyCount = notebook->getKeyClueCount();
+    if (keyCount == 0 && !notebook->hasClue("clue_handwriting_surface") && !notebook->hasClue("clue_shadow_surface")) {
+        cout << "笔记本是空的。" << endl;
+        return;
+    }
+    
+    if (week == 1) {
+        cout << "你找到了一些初步证据：" << endl;
+        if (notebook->hasClue("clue_handwriting_surface")) {
+            cout << "  - 手写稿" << endl;
+        }
+        if (notebook->hasClue("clue_shadow_surface")) {
+            cout << "  - 录影带" << endl;
+        }
+        cout << endl;
+        cout << "输入 notebook 查看详情。" << endl;
+        return;
+    }
+    
+    cout << "笔记本中已记录 " << keyCount << " 条关键破绽。" << endl;
+    cout << "输入 notebook 查看详情。" << endl;
+}
+
+void Game::showNotebook() {
+    cout << "========== 侦探笔记 ==========" << endl;
+    vector<Clue*> allClues = notebook->getAllClues();
+    if (allClues.empty()) {
+        cout << "笔记本是空的。" << endl;
+        return;
+    }
+    cout << "共 " << allClues.size() << " 条线索" << endl;
+    cout << endl;
+    for (Clue* clue : allClues) {
+        cout << "【" << clue->getName() << "】";
+        if (clue->getIsKey()) cout << " ★";
+        cout << endl;
+        cout << "  地点：" << clue->getLocation() << endl;
+        cout << "  详情：" << clue->getDescription() << endl;
+        cout << endl;
+    }
+    cout << "==============================" << endl;
+}
+
+void Game::combine(const string& args) {
+    if (gameOver) {
+        cout << "游戏已结束，输入 quit 退出。" << endl;
+        return;
+    }
+    if (!choseContinue || week != 2) {
+        cout << "你目前掌握的证据还不足以进行推理。" << endl;
+        return;
+    }
+    if (args.empty()) {
+        cout << "请指定要组合的线索，用 + 连接。" << endl;
+        return;
+    }
+    size_t pos = args.find('+');
+    if (pos == string::npos) {
+        cout << "请用 + 连接两个线索" << endl;
+        return;
+    }
+    string name1 = args.substr(0, pos);
+    string name2 = args.substr(pos + 1);
+    while (!name1.empty() && name1.front() == ' ') name1.erase(0, 1);
+    while (!name1.empty() && name1.back() == ' ') name1.pop_back();
+    while (!name2.empty() && name2.front() == ' ') name2.erase(0, 1);
+    while (!name2.empty() && name2.back() == ' ') name2.pop_back();
+
+    Clue* c1 = nullptr;
+    Clue* c2 = nullptr;
+    for (Clue* clue : notebook->getAllClues()) {
+        if (clue->getName() == name1) c1 = clue;
+        if (clue->getName() == name2) c2 = clue;
+    }
+    if (c1 == nullptr || c2 == nullptr) {
+        cout << "没有找到指定的线索。" << endl;
+        return;
+    }
+    if (notebook->combine(c1->getId(), c2->getId())) {
+        cout << "你组合了「" << name1 << "」和「" << name2 << "」！" << endl;
+        cout << endl;
+        cout << "你发现了新的推理方向！" << endl;
+        notebook->addInference("组合「" + name1 + "」和「" + name2 + "」产生了新的思路。");
+    } else {
+        cout << "这两个线索似乎无法组合。" << endl;
+    }
+}
+
+void Game::endingScreen(const string& endingType) {
+    gameOver = true;
+    isRunning = false;
+    hasSubmittedReport = true;
+
+    cout << endl;
+    cout << "═══════════════════════════════════════" << endl;
+    cout << "🎭 结 局" << endl;
+    cout << "═══════════════════════════════════════" << endl;
+    cout << endl;
+
+    int keyCount = notebook->getKeyClueCount();
+
+    if (endingType == "BE") {
+        cout << "【Bad Ending - 草率结案】" << endl;
+        cout << "你轻信了野野口修的谎言，草草结案。" << endl;
+        cout << "日高邦彦名誉扫地，野野口修的阴谋得逞。" << endl;
+        cout << "数年后，你发现了真相，但为时已晚……" << endl;
+        cout << endl;
+        cout << "「先入为主的恶意，比杀人更可怕。」" << endl;
+    } else if (endingType == "NE") {
+        cout << "【Normal Ending - 证据不足】" << endl;
+        cout << "你怀疑野野口修在说谎，但证据不够充分。" << endl;
+        cout << "最终案件以「影子写手报复杀人」结案。" << endl;
+        cout << "日高邦彦留下了污名，真相被永远掩埋……" << endl;
+    } else if (endingType == "TE") {
+        cout << "【True Ending - 揭开恶意】" << endl;
+        cout << "你收集了全部5项关键破绽！" << endl;
+        cout << "野野口修的心理防线彻底崩溃！" << endl;
+        cout << endl;
+        cout << "他面无表情地说出了那句话：" << endl;
+        cout << "「我就是看他不爽。」" << endl;
+        cout << endl;
+        cout << "这就是全部的动机。" << endl;
+        cout << "没有情仇，没有胁迫，没有影子写手。" << endl;
+        cout << "只是从中学时代开始，日复一日的……恶意。" << endl;
+        cout << endl;
+        cout << "日高邦彦的名誉终于得以恢复。" << endl;
+        cout << "🏆 你获得了「真相」成就！" << endl;
+    } else if (endingType == "HE") {
+        cout << "【Happy Ending - 心理攻防大师】" << endl;
+        cout << "你不仅在推理上完胜，" << endl;
+        cout << "更在心理战中彻底击溃了野野口修！" << endl;
+        cout << "他所有谎言都被你一一戳穿，" << endl;
+        cout << "最终跪地认罪，说出了全部真相。" << endl;
+        cout << endl;
+        cout << "「我就是看他不爽。」" << endl;
+        cout << endl;
+        cout << "—— 恭喜你，你完美还原了《恶意》的真相！" << endl;
+        cout << "🏆 额外获得「心理攻防大师」评价！" << endl;
+    }
+    cout << "═══════════════════════════════════════" << endl;
+}
+
+void Game::submitReport() {
+    if (gameOver) {
+        cout << "游戏已结束。" << endl;
+        return;
+    }
+    if (hasSubmittedReport) {
+        cout << "你已经提交过结案报告了。" << endl;
+        return;
+    }
+
+    int keyCount = notebook->getKeyClueCount();
+    
+    if (trapTriggered && !choseContinue && week == 1) {
+        endingScreen("BE");
+        return;
+    }
+    
+    if (keyCount < 5) {
+        endingScreen("NE");
+        return;
+    }
+    
+    if (keyCount >= 5) {
+        endingScreen("TE");
+        return;
+    }
+    
+    endingScreen("NE");
+}
+
+void Game::showMap() {
+    cout << endl;
+    cout << "╔══════════════════════════════════════════════════════════════╗" << endl;
+    cout << "║                      🗺️  案 件 地 图                       ║" << endl;
+    cout << "╠══════════════════════════════════════════════════════════════╣" << endl;
+    cout << "║                                                              ║" << endl;
+    cout << "║              ┌──────────────────┐                           ║" << endl;
+    cout << "║              │   警视厅搜查一課  │ ← 起点                   ║" << endl;
+    cout << "║              └────────┬─────────┘                           ║" << endl;
+    cout << "║                       │                                     ║" << endl;
+    cout << "║              ┌────────┴─────────┐                           ║" << endl;
+    cout << "║              │   日高家书房     │ ← 案发现场               ║" << endl;
+    cout << "║              │  （野野口在此）  │                           ║" << endl;
+    cout << "║              └────────┬─────────┘                           ║" << endl;
+    cout << "║                       │                                     ║" << endl;
+    cout << "║              ┌────────┴─────────┐                           ║" << endl;
+    cout << "║              │   日高家客厅     │                           ║" << endl;
+    cout << "║              └────────┬─────────┘                           ║" << endl;
+    cout << "║                       │                                     ║" << endl;
+    cout << "║              ┌────────┴─────────┐                           ║" << endl;
+    cout << "║              │   野野口公寓     │                           ║" << endl;
+    cout << "║              └────────┬─────────┘                           ║" << endl;
+    cout << "║                       │                                     ║" << endl;
+    cout << "║         ┌─────────────┼─────────────┐                       ║" << endl;
+    cout << "║         │             │             │                       ║" << endl;
+    cout << "║    ┌────┴────┐  ┌────┴────┐  ┌────┴────┐                  ║" << endl;
+    cout << "║    │ 旧中学   │  │ 社区药局 │  │ 日高旧居 │                  ║" << endl;
+    cout << "║    └─────────┘  └─────────┘  └─────────┘                  ║" << endl;
+    cout << "║                                                              ║" << endl;
+    cout << "╠══════════════════════════════════════════════════════════════╣" << endl;
+    cout << "║  当前位于：" << currentRoom->getName() << "                          ║" << endl;
+    cout << "╚══════════════════════════════════════════════════════════════╝" << endl;
+    cout << endl;
+}
+
+Room* Game::getCurrentRoom() const {
+    return currentRoom;
+}
+
+void Game::moveToRoom(const string& roomId) {
+    auto it = rooms.find(roomId);
+    if (it != rooms.end()) {
+        currentRoom = it->second;
+    }
+}

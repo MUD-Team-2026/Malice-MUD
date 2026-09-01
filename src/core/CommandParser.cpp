@@ -17,6 +17,12 @@ CommandParser::CommandParser() {
     cmdMap["质问"] = CommandType::QUESTION;
     cmdMap["沉思"] = CommandType::MEDITATE;
     cmdMap["威吓"] = CommandType::INTIMIDATE;
+    cmdMap["對質"] = CommandType::CONFRONT;
+    cmdMap["对质"] = CommandType::CONFRONT;
+    cmdMap["对质"] = CommandType::CONFRONT;
+    cmdMap["對質"] = CommandType::CONFRONT;
+    cmdMap["对质"] = CommandType::CONFRONT;
+    cmdMap["对质"] = CommandType::CONFRONT;
     cmdMap["report"] = CommandType::REPORT;
     cmdMap["map"] = CommandType::MAP;
 }

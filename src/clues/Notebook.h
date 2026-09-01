@@ -3,7 +3,7 @@
 
 #include "Clue.h"
 #include <vector>
-#include <map>
+#include <string>
 using namespace std;
 
 class Notebook {
@@ -20,15 +20,12 @@ public:
     Clue* getClue(const string& id) const;
     vector<Clue*> getAllClues() const;
     vector<Clue*> getKeyClues() const;
-
-    // 线索组合推理
     bool combine(const string& id1, const string& id2);
     void addInference(const string& inference);
     vector<string> getInferences() const;
-
-    // 统计信息
     int getClueCount() const;
     int getKeyClueCount() const;
+    void clear();
 };
 
 #endif

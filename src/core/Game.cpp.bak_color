@@ -17,7 +17,6 @@ using namespace std;
 #define BLUE    "\033[34m"
 #define MAGENTA "\033[35m"
 #define CYAN    "\033[36m"
-#define WHITE   "\033[37m"
 #define BRED    "\033[91m"
 #define BGREEN  "\033[92m"
 #define BYELLOW "\033[93m"
@@ -43,15 +42,15 @@ void printLoading(const string& text, int duration_ms = 1200) {
     this_thread::sleep_for(chrono::milliseconds(150));
 }
 
-void printDivider() {
+void printDivider(char c = '═', int len = 39) {
     cout << CYAN;
-    for (int i = 0; i < 39; i++) cout << "=";
+    for (int i = 0; i < len; i++) cout << c;
     cout << RESET << endl;
 }
 
 void printDoubleDivider() {
     cout << BRED;
-    for (int i = 0; i < 39; i++) cout << "=";
+    for (int i = 0; i < 39; i++) cout << "═";
     cout << RESET << endl;
 }
 
@@ -450,10 +449,11 @@ void Game::examine(const string& itemName) {
     }
 
     if (foundDeep && week == 2 && !gameOver) {
+        int keyCount = notebook->getKeyClueCount();
         cout << endl;
-        printDivider();
+        printDivider('═');
         cout << BYELLOW << "📋 你找到了新的证据！" << RESET << endl;
-        printDivider();
+        printDivider('═');
         cout << endl;
         cout << "  " << GREEN << "[1]" << RESET << " 提交结案报告" << endl;
         cout << "  " << BYELLOW << "[2]" << RESET << " 与野野口修当面对质" << endl;
@@ -492,17 +492,17 @@ void Game::checkTrap() {
     if (foundSurface1 && foundSurface2 && week == 1) {
         trapTriggered = true;
         cout << endl;
-        printDivider();
+        printDivider('═');
         cout << BYELLOW << "📋 你已经掌握了一些证据。" << RESET << endl;
-        printDivider();
+        printDivider('═');
         cout << endl;
         cout << "你找到了手写稿和录影带。" << endl;
         cout << "野野口修承认杀人的动机看起来已经明确了。" << endl;
         cout << endl;
-        printDivider();
+        printDivider('═');
         cout << "  " << GREEN << "[1]" << RESET << " 结案" << endl;
         cout << "  " << CYAN << "[2]" << RESET << " 继续调查" << endl;
-        printDivider();
+        printDivider('═');
         cout << endl;
         cout << "请输入 1 或 2：";
         
@@ -656,9 +656,9 @@ void Game::question(const string& clueName) {
     if (suspectMental < 30 && !hasUsedLastLie && week == 2) {
         hasUsedLastLie = true;
         cout << endl;
-        printDivider();
+        printDivider('═');
         cout << BRED << "💀 野野口修进入了「崩溃边缘」！" << RESET << endl;
-        printDivider();
+        printDivider('═');
         cout << endl;
     }
 
@@ -853,9 +853,9 @@ void Game::think() {
 
 void Game::showNotebook() {
     cout << endl;
-    printDivider();
+    printDivider('═');
     cout << BYELLOW << "📓 侦探笔记" << RESET << endl;
-    printDivider();
+    printDivider('═');
     
     vector<Clue*> allClues = notebook->getAllClues();
     if (allClues.empty()) {
@@ -872,7 +872,7 @@ void Game::showNotebook() {
         cout << "  详情：" << clue->getDescription() << endl;
         cout << endl;
     }
-    printDivider();
+    printDivider('═');
 }
 
 void Game::combine(const string& args) {
@@ -1006,9 +1006,9 @@ void Game::submitReport() {
 
 void Game::showMap() {
     cout << endl;
-    printDivider();
+    printDivider('═');
     cout << BYELLOW << "🗺️  案件地图" << RESET << endl;
-    printDivider();
+    printDivider('═');
     cout << endl;
     cout << "              ┌──────────────────┐" << endl;
     cout << "              │   警视厅搜查一課  │ ← 起点" << endl;
@@ -1034,10 +1034,10 @@ void Game::showMap() {
     cout << "    │（老师）  │  │（毒药）  │  │（信件）  │" << endl;
     cout << "    └─────────┘  └─────────┘  └─────────┘" << endl;
     cout << endl;
-    printDivider();
+    printDivider('═');
     cout << "  当前位于：" << BYELLOW << currentRoom->getName() << RESET << endl;
     cout << "  已收集关键破绽：" << BYELLOW << notebook->getKeyClueCount() << RESET << " / 5" << endl;
-    printDivider();
+    printDivider('═');
     cout << endl;
 }
 

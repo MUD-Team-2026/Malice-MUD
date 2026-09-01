@@ -176,7 +176,6 @@ CMakeFiles/MaliceMUD.dir/src/clues/Judge.cpp.o: /home/alienare/Malice-MUD/src/cl
   /usr/include/c++/15/bits/cpp_type_traits.h \
   /usr/include/c++/15/bits/cxxabi_forced.h \
   /usr/include/c++/15/bits/cxxabi_init_exception.h \
-  /usr/include/c++/15/bits/erase_if.h \
   /usr/include/c++/15/bits/exception.h \
   /usr/include/c++/15/bits/exception_defines.h \
   /usr/include/c++/15/bits/exception_ptr.h \
@@ -196,7 +195,6 @@ CMakeFiles/MaliceMUD.dir/src/clues/Judge.cpp.o: /home/alienare/Malice-MUD/src/cl
   /usr/include/c++/15/bits/move.h \
   /usr/include/c++/15/bits/nested_exception.h \
   /usr/include/c++/15/bits/new_allocator.h \
-  /usr/include/c++/15/bits/node_handle.h \
   /usr/include/c++/15/bits/ostream.h \
   /usr/include/c++/15/bits/ostream.tcc \
   /usr/include/c++/15/bits/ostream_insert.h \
@@ -214,10 +212,7 @@ CMakeFiles/MaliceMUD.dir/src/clues/Judge.cpp.o: /home/alienare/Malice-MUD/src/cl
   /usr/include/c++/15/bits/stl_iterator.h \
   /usr/include/c++/15/bits/stl_iterator_base_funcs.h \
   /usr/include/c++/15/bits/stl_iterator_base_types.h \
-  /usr/include/c++/15/bits/stl_map.h \
-  /usr/include/c++/15/bits/stl_multimap.h \
   /usr/include/c++/15/bits/stl_pair.h \
-  /usr/include/c++/15/bits/stl_tree.h \
   /usr/include/c++/15/bits/stl_uninitialized.h \
   /usr/include/c++/15/bits/stl_vector.h \
   /usr/include/c++/15/bits/streambuf.tcc \
@@ -241,7 +236,6 @@ CMakeFiles/MaliceMUD.dir/src/clues/Judge.cpp.o: /home/alienare/Malice-MUD/src/cl
   /usr/include/c++/15/debug/assertions.h \
   /usr/include/c++/15/debug/debug.h \
   /usr/include/c++/15/exception \
-  /usr/include/c++/15/ext/aligned_buffer.h \
   /usr/include/c++/15/ext/alloc_traits.h \
   /usr/include/c++/15/ext/atomicity.h \
   /usr/include/c++/15/ext/numeric_traits.h \
@@ -252,7 +246,6 @@ CMakeFiles/MaliceMUD.dir/src/clues/Judge.cpp.o: /home/alienare/Malice-MUD/src/cl
   /usr/include/c++/15/iosfwd \
   /usr/include/c++/15/iostream \
   /usr/include/c++/15/istream \
-  /usr/include/c++/15/map \
   /usr/include/c++/15/new \
   /usr/include/c++/15/ostream \
   /usr/include/c++/15/pstl/pstl_config.h \
@@ -388,7 +381,6 @@ CMakeFiles/MaliceMUD.dir/src/clues/Notebook.cpp.o: /home/alienare/Malice-MUD/src
   /usr/include/c++/15/bits/concept_check.h \
   /usr/include/c++/15/bits/cpp_type_traits.h \
   /usr/include/c++/15/bits/cxxabi_forced.h \
-  /usr/include/c++/15/bits/erase_if.h \
   /usr/include/c++/15/bits/exception.h \
   /usr/include/c++/15/bits/exception_defines.h \
   /usr/include/c++/15/bits/functexcept.h \
@@ -400,7 +392,6 @@ CMakeFiles/MaliceMUD.dir/src/clues/Notebook.cpp.o: /home/alienare/Malice-MUD/src
   /usr/include/c++/15/bits/memoryfwd.h \
   /usr/include/c++/15/bits/move.h \
   /usr/include/c++/15/bits/new_allocator.h \
-  /usr/include/c++/15/bits/node_handle.h \
   /usr/include/c++/15/bits/ostream_insert.h \
   /usr/include/c++/15/bits/postypes.h \
   /usr/include/c++/15/bits/predefined_ops.h \
@@ -418,11 +409,8 @@ CMakeFiles/MaliceMUD.dir/src/clues/Notebook.cpp.o: /home/alienare/Malice-MUD/src
   /usr/include/c++/15/bits/stl_iterator.h \
   /usr/include/c++/15/bits/stl_iterator_base_funcs.h \
   /usr/include/c++/15/bits/stl_iterator_base_types.h \
-  /usr/include/c++/15/bits/stl_map.h \
-  /usr/include/c++/15/bits/stl_multimap.h \
   /usr/include/c++/15/bits/stl_pair.h \
   /usr/include/c++/15/bits/stl_tempbuf.h \
-  /usr/include/c++/15/bits/stl_tree.h \
   /usr/include/c++/15/bits/stl_uninitialized.h \
   /usr/include/c++/15/bits/stl_vector.h \
   /usr/include/c++/15/bits/string_view.tcc \
@@ -443,14 +431,12 @@ CMakeFiles/MaliceMUD.dir/src/clues/Notebook.cpp.o: /home/alienare/Malice-MUD/src
   /usr/include/c++/15/cwchar \
   /usr/include/c++/15/debug/assertions.h \
   /usr/include/c++/15/debug/debug.h \
-  /usr/include/c++/15/ext/aligned_buffer.h \
   /usr/include/c++/15/ext/alloc_traits.h \
   /usr/include/c++/15/ext/numeric_traits.h \
   /usr/include/c++/15/ext/string_conversions.h \
   /usr/include/c++/15/ext/type_traits.h \
   /usr/include/c++/15/initializer_list \
   /usr/include/c++/15/iosfwd \
-  /usr/include/c++/15/map \
   /usr/include/c++/15/new \
   /usr/include/c++/15/pstl/execution_defs.h \
   /usr/include/c++/15/pstl/glue_algorithm_defs.h \
@@ -777,6 +763,7 @@ CMakeFiles/MaliceMUD.dir/src/core/Game.cpp.o: /home/alienare/Malice-MUD/src/core
   /usr/include/c++/15/bits/basic_string.tcc \
   /usr/include/c++/15/bits/char_traits.h \
   /usr/include/c++/15/bits/charconv.h \
+  /usr/include/c++/15/bits/chrono.h \
   /usr/include/c++/15/bits/concept_check.h \
   /usr/include/c++/15/bits/cpp_type_traits.h \
   /usr/include/c++/15/bits/cxxabi_forced.h \
@@ -805,6 +792,7 @@ CMakeFiles/MaliceMUD.dir/src/core/Game.cpp.o: /home/alienare/Malice-MUD/src/core
   /usr/include/c++/15/bits/ostream.h \
   /usr/include/c++/15/bits/ostream.tcc \
   /usr/include/c++/15/bits/ostream_insert.h \
+  /usr/include/c++/15/bits/parse_numbers.h \
   /usr/include/c++/15/bits/postypes.h \
   /usr/include/c++/15/bits/predefined_ops.h \
   /usr/include/c++/15/bits/ptr_traits.h \
@@ -812,6 +800,7 @@ CMakeFiles/MaliceMUD.dir/src/core/Game.cpp.o: /home/alienare/Malice-MUD/src/core
   /usr/include/c++/15/bits/refwrap.h \
   /usr/include/c++/15/bits/requires_hosted.h \
   /usr/include/c++/15/bits/std_abs.h \
+  /usr/include/c++/15/bits/std_thread.h \
   /usr/include/c++/15/bits/stl_algobase.h \
   /usr/include/c++/15/bits/stl_bvector.h \
   /usr/include/c++/15/bits/stl_construct.h \
@@ -829,6 +818,8 @@ CMakeFiles/MaliceMUD.dir/src/core/Game.cpp.o: /home/alienare/Malice-MUD/src/core
   /usr/include/c++/15/bits/streambuf_iterator.h \
   /usr/include/c++/15/bits/string_view.tcc \
   /usr/include/c++/15/bits/stringfwd.h \
+  /usr/include/c++/15/bits/this_thread_sleep.h \
+  /usr/include/c++/15/bits/unique_ptr.h \
   /usr/include/c++/15/bits/uses_allocator.h \
   /usr/include/c++/15/bits/uses_allocator_args.h \
   /usr/include/c++/15/bits/utility.h \
@@ -836,9 +827,11 @@ CMakeFiles/MaliceMUD.dir/src/core/Game.cpp.o: /home/alienare/Malice-MUD/src/core
   /usr/include/c++/15/bits/version.h \
   /usr/include/c++/15/cctype \
   /usr/include/c++/15/cerrno \
+  /usr/include/c++/15/chrono \
   /usr/include/c++/15/clocale \
   /usr/include/c++/15/concepts \
   /usr/include/c++/15/cstddef \
+  /usr/include/c++/15/cstdint \
   /usr/include/c++/15/cstdio \
   /usr/include/c++/15/cstdlib \
   /usr/include/c++/15/ctime \
@@ -858,15 +851,18 @@ CMakeFiles/MaliceMUD.dir/src/core/Game.cpp.o: /home/alienare/Malice-MUD/src/core
   /usr/include/c++/15/iosfwd \
   /usr/include/c++/15/iostream \
   /usr/include/c++/15/istream \
+  /usr/include/c++/15/limits \
   /usr/include/c++/15/map \
   /usr/include/c++/15/new \
   /usr/include/c++/15/ostream \
   /usr/include/c++/15/pstl/pstl_config.h \
+  /usr/include/c++/15/ratio \
   /usr/include/c++/15/stdexcept \
   /usr/include/c++/15/streambuf \
   /usr/include/c++/15/string \
   /usr/include/c++/15/string_view \
   /usr/include/c++/15/system_error \
+  /usr/include/c++/15/thread \
   /usr/include/c++/15/tuple \
   /usr/include/c++/15/type_traits \
   /usr/include/c++/15/typeinfo \
@@ -885,6 +881,7 @@ CMakeFiles/MaliceMUD.dir/src/core/Game.cpp.o: /home/alienare/Malice-MUD/src/core
   /usr/include/pthread.h \
   /usr/include/sched.h \
   /usr/include/stdc-predef.h \
+  /usr/include/stdint.h \
   /usr/include/stdio.h \
   /usr/include/stdlib.h \
   /usr/include/time.h \
@@ -913,6 +910,8 @@ CMakeFiles/MaliceMUD.dir/src/core/Game.cpp.o: /home/alienare/Malice-MUD/src/core
   /usr/include/x86_64-linux-gnu/bits/select.h \
   /usr/include/x86_64-linux-gnu/bits/setjmp.h \
   /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
+  /usr/include/x86_64-linux-gnu/bits/stdint-least.h \
+  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
   /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
   /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
   /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
@@ -972,7 +971,8 @@ CMakeFiles/MaliceMUD.dir/src/core/Game.cpp.o: /home/alienare/Malice-MUD/src/core
   /usr/include/x86_64-linux-gnu/sys/single_threaded.h \
   /usr/include/x86_64-linux-gnu/sys/types.h \
   /usr/lib/gcc/x86_64-linux-gnu/15/include/stdarg.h \
-  /usr/lib/gcc/x86_64-linux-gnu/15/include/stddef.h
+  /usr/lib/gcc/x86_64-linux-gnu/15/include/stddef.h \
+  /usr/lib/gcc/x86_64-linux-gnu/15/include/stdint.h
 
 CMakeFiles/MaliceMUD.dir/src/core/SaveManager.cpp.o: /home/alienare/Malice-MUD/src/core/SaveManager.cpp \
   /home/alienare/Malice-MUD/src/clues/Clue.h \
@@ -2511,19 +2511,11 @@ CMakeFiles/MaliceMUD.dir/src/npc/Suspect.cpp.o: /home/alienare/Malice-MUD/src/np
 
 /usr/include/x86_64-linux-gnu/c++/15/bits/messages_members.h:
 
-/usr/include/x86_64-linux-gnu/bits/stdint-uintn.h:
-
-/usr/include/x86_64-linux-gnu/bits/stdint-least.h:
-
-/usr/include/stdint.h:
-
 /usr/include/c++/15/locale:
 
 /usr/include/c++/15/ext/concurrence.h:
 
 /usr/include/c++/15/codecvt:
-
-/usr/include/c++/15/bits/unique_ptr.h:
 
 /usr/include/c++/15/bits/shared_ptr_base.h:
 
@@ -2537,15 +2529,23 @@ CMakeFiles/MaliceMUD.dir/src/npc/Suspect.cpp.o: /home/alienare/Malice-MUD/src/np
 
 /usr/include/c++/15/bits/codecvt.h:
 
-/usr/include/c++/15/bits/chrono.h:
-
 /usr/include/c++/15/bits/allocated_ptr.h:
 
 /home/alienare/Malice-MUD/src/core/SaveManager.cpp:
 
-/usr/lib/gcc/x86_64-linux-gnu/15/include/stdint.h:
+/usr/include/x86_64-linux-gnu/bits/stdint-uintn.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdint-least.h:
+
+/usr/include/stdint.h:
+
+/usr/include/c++/15/bits/unique_ptr.h:
+
+/usr/include/c++/15/bits/chrono.h:
 
 /usr/include/c++/15/bits/locale_facets_nonio.tcc:
+
+/usr/lib/gcc/x86_64-linux-gnu/15/include/stdint.h:
 
 /home/alienare/Malice-MUD/src/npc/Suspect.h:
 
@@ -2558,6 +2558,12 @@ CMakeFiles/MaliceMUD.dir/src/npc/Suspect.cpp.o: /home/alienare/Malice-MUD/src/np
 /home/alienare/Malice-MUD/src/core/Game.h:
 
 /usr/include/c++/15/sstream:
+
+/usr/include/c++/15/ext/aligned_buffer.h:
+
+/usr/include/c++/15/bits/stl_multimap.h:
+
+/usr/include/c++/15/bits/stl_map.h:
 
 /home/alienare/Malice-MUD/src/core/CommandParser.h:
 
@@ -2588,8 +2594,6 @@ CMakeFiles/MaliceMUD.dir/src/npc/Suspect.cpp.o: /home/alienare/Malice-MUD/src/np
 /usr/include/c++/15/bits/fs_ops.h:
 
 /usr/include/x86_64-linux-gnu/bits/timex.h:
-
-/usr/include/x86_64-linux-gnu/bits/sched.h:
 
 /usr/include/x86_64-linux-gnu/bits/floatn.h:
 
@@ -2628,10 +2632,6 @@ CMakeFiles/MaliceMUD.dir/src/npc/Suspect.cpp.o: /home/alienare/Malice-MUD/src/np
 /usr/include/linux/errno.h:
 
 /usr/include/c++/15/cstdio:
-
-/usr/include/x86_64-linux-gnu/asm/posix_types_64.h:
-
-/usr/include/x86_64-linux-gnu/bits/endianness.h:
 
 /usr/include/errno.h:
 
@@ -2715,6 +2715,12 @@ CMakeFiles/MaliceMUD.dir/src/npc/Suspect.cpp.o: /home/alienare/Malice-MUD/src/np
 
 /home/alienare/Malice-MUD/src/entities/Entity.h:
 
+/usr/include/c++/15/limits:
+
+/usr/include/c++/15/map:
+
+/usr/include/asm-generic/errno-base.h:
+
 /usr/include/c++/15/vector:
 
 /usr/include/c++/15/bits/concept_check.h:
@@ -2753,6 +2759,8 @@ CMakeFiles/MaliceMUD.dir/src/npc/Suspect.cpp.o: /home/alienare/Malice-MUD/src/np
 
 /usr/include/c++/15/bits/functional_hash.h:
 
+/usr/include/c++/15/bits/std_thread.h:
+
 /usr/include/c++/15/ext/type_traits.h:
 
 /usr/include/c++/15/backward/binders.h:
@@ -2768,6 +2776,10 @@ CMakeFiles/MaliceMUD.dir/src/npc/Suspect.cpp.o: /home/alienare/Malice-MUD/src/np
 /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/15/include/stdarg.h:
+
+/usr/include/x86_64-linux-gnu/bits/endianness.h:
+
+/usr/include/x86_64-linux-gnu/asm/posix_types_64.h:
 
 /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h:
 
@@ -2819,6 +2831,8 @@ CMakeFiles/MaliceMUD.dir/src/npc/Suspect.cpp.o: /home/alienare/Malice-MUD/src/np
 
 /usr/include/c++/15/bits/stl_uninitialized.h:
 
+/usr/include/c++/15/bits/this_thread_sleep.h:
+
 /usr/include/x86_64-linux-gnu/bits/libc-header-start.h:
 
 /usr/include/c++/15/bits/string_view.tcc:
@@ -2840,14 +2854,6 @@ CMakeFiles/MaliceMUD.dir/src/npc/Suspect.cpp.o: /home/alienare/Malice-MUD/src/np
 /usr/include/wctype.h:
 
 /usr/include/ctype.h:
-
-/home/alienare/Malice-MUD/src/npc/NPC.cpp:
-
-/usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h:
-
-/usr/include/asm-generic/errno.h:
-
-/usr/include/c++/15/bits/ostream_insert.h:
 
 /usr/include/x86_64-linux-gnu/c++/15/bits/c++config.h:
 
@@ -2907,12 +2913,6 @@ CMakeFiles/MaliceMUD.dir/src/npc/Suspect.cpp.o: /home/alienare/Malice-MUD/src/np
 
 /usr/include/x86_64-linux-gnu/bits/stdint-intn.h:
 
-/usr/include/c++/15/limits:
-
-/usr/include/asm-generic/errno-base.h:
-
-/usr/include/c++/15/map:
-
 /usr/include/linux/posix_types.h:
 
 /home/alienare/Malice-MUD/src/core/Game.cpp:
@@ -2953,6 +2953,8 @@ CMakeFiles/MaliceMUD.dir/src/npc/Suspect.cpp.o: /home/alienare/Malice-MUD/src/np
 
 /usr/include/x86_64-linux-gnu/bits/types/time_t.h:
 
+/usr/include/c++/15/chrono:
+
 /usr/include/x86_64-linux-gnu/bits/typesizes.h:
 
 /usr/include/c++/15/istream:
@@ -2961,11 +2963,21 @@ CMakeFiles/MaliceMUD.dir/src/npc/Suspect.cpp.o: /home/alienare/Malice-MUD/src/np
 
 /usr/include/x86_64-linux-gnu/bits/waitstatus.h:
 
+/usr/include/c++/15/thread:
+
 /usr/include/x86_64-linux-gnu/bits/wordsize.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/wint_t.h:
 
 /usr/include/x86_64-linux-gnu/c++/15/bits/c++locale.h:
+
+/home/alienare/Malice-MUD/src/npc/NPC.cpp:
+
+/usr/include/asm-generic/errno.h:
+
+/usr/include/c++/15/bits/ostream_insert.h:
+
+/usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h:
 
 /usr/include/x86_64-linux-gnu/c++/15/bits/cpu_defines.h:
 
@@ -3007,25 +3019,17 @@ CMakeFiles/MaliceMUD.dir/src/npc/Suspect.cpp.o: /home/alienare/Malice-MUD/src/np
 
 /usr/include/c++/15/bits/locale_classes.tcc:
 
-/usr/include/x86_64-linux-gnu/bits/cpu-set.h:
-
-/usr/include/c++/15/bits/node_handle.h:
-
 /usr/include/c++/15/bits/stl_construct.h:
 
 /usr/include/c++/15/bits/ostream.h:
-
-/usr/include/c++/15/bits/stl_map.h:
-
-/usr/include/c++/15/bits/stl_multimap.h:
 
 /usr/include/c++/15/bits/streambuf.tcc:
 
 /home/alienare/Malice-MUD/src/entities/Entity.cpp:
 
-/usr/include/x86_64-linux-gnu/bits/types/sigset_t.h:
-
 /usr/include/c++/15/bits/erase_if.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/sigset_t.h:
 
 /usr/include/c++/15/cwctype:
 
@@ -3034,14 +3038,6 @@ CMakeFiles/MaliceMUD.dir/src/npc/Suspect.cpp.o: /home/alienare/Malice-MUD/src/np
 /usr/include/x86_64-linux-gnu/gnu/stubs-64.h:
 
 /usr/include/c++/15/exception:
-
-/usr/include/c++/15/ext/aligned_buffer.h:
-
-/usr/include/x86_64-linux-gnu/c++/15/bits/basic_file.h:
-
-/home/alienare/Malice-MUD/src/clues/Judge.cpp:
-
-/usr/include/linux/types.h:
 
 /home/alienare/Malice-MUD/src/npc/NPC.h:
 
@@ -3057,6 +3053,12 @@ CMakeFiles/MaliceMUD.dir/src/npc/Suspect.cpp.o: /home/alienare/Malice-MUD/src/np
 
 /usr/include/linux/sched/types.h:
 
+/usr/include/x86_64-linux-gnu/c++/15/bits/basic_file.h:
+
+/home/alienare/Malice-MUD/src/clues/Judge.cpp:
+
+/usr/include/linux/types.h:
+
 /home/alienare/Malice-MUD/src/entities/Player.h:
 
 /usr/include/sched.h:
@@ -3068,3 +3070,9 @@ CMakeFiles/MaliceMUD.dir/src/npc/Suspect.cpp.o: /home/alienare/Malice-MUD/src/np
 /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h:
 
 /usr/include/x86_64-linux-gnu/asm/posix_types.h:
+
+/usr/include/c++/15/bits/node_handle.h:
+
+/usr/include/x86_64-linux-gnu/bits/cpu-set.h:
+
+/usr/include/x86_64-linux-gnu/bits/sched.h:

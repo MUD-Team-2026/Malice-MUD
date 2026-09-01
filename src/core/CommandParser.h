@@ -21,6 +21,7 @@ enum class CommandType {
     QUESTION,
     MEDITATE,
     INTIMIDATE,
+    CONFRONT,
     REPORT,
     MAP
 };

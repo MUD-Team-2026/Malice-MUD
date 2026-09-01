@@ -30,6 +30,7 @@ private:
     bool gameOver;
     bool hasUsedLastLie;
     bool isInBattle;
+    int evidenceShown;
     bool foundSurface1;
     bool foundSurface2;
     bool trapTriggered;
@@ -58,9 +59,11 @@ public:
     void suspectTurn();
     void startConfrontation();
     void endingScreen(const string& endingType);
+    void confront();
     Room* getCurrentRoom() const;
+    void moveToRoom(const string& roomId);
+    Notebook* getNotebook() { return notebook; }
 
-    // SaveManager 需要的 getter
     int getWeek() const { return week; }
     int getPlayerMental() const { return playerMental; }
     int getSuspectMental() const { return suspectMental; }
@@ -70,8 +73,11 @@ public:
     bool getHasSubmittedReport() const { return hasSubmittedReport; }
     bool getGameOver() const { return gameOver; }
     bool getIsInBattle() const { return isInBattle; }
+    bool getChoseContinue() const { return choseContinue; }
+    bool getTrapTriggered() const { return trapTriggered; }
+    bool getFoundSurface1() const { return foundSurface1; }
+    bool getFoundSurface2() const { return foundSurface2; }
 
-    // SaveManager 需要的 setter
     void setWeek(int w) { week = w; }
     void setPlayerMental(int pm) { playerMental = pm; }
     void setSuspectMental(int sm) { suspectMental = sm; }
@@ -81,6 +87,10 @@ public:
     void setHasSubmittedReport(bool b) { hasSubmittedReport = b; }
     void setGameOver(bool b) { gameOver = b; }
     void setIsInBattle(bool b) { isInBattle = b; }
+    void setChoseContinue(bool b) { choseContinue = b; }
+    void setTrapTriggered(bool b) { trapTriggered = b; }
+    void setFoundSurface1(bool b) { foundSurface1 = b; }
+    void setFoundSurface2(bool b) { foundSurface2 = b; }
 };
 
 #endif

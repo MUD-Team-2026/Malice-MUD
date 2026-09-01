@@ -1,0 +1,21 @@
+    // ===== 地圖連接 =====
+    policeOffice->addExit("书房", study);
+
+    study->addExit("客厅", livingRoom);
+    study->addExit("警视厅", policeOffice);
+
+    livingRoom->addExit("书房", study);
+    livingRoom->addExit("公寓", suspectHome);
+
+    suspectHome->addExit("客厅", livingRoom);
+    suspectHome->addExit("旧中学", oldSchool);
+    suspectHome->addExit("药局", pharmacy);
+    suspectHome->addExit("旧居", oldHouse);   // ✅ 公寓可以直接去舊居
+
+    oldSchool->addExit("公寓", suspectHome);
+    oldSchool->addExit("旧居", oldHouse);
+
+    oldHouse->addExit("公寓", suspectHome);   // ✅ 舊居出口改為公寓
+    oldHouse->addExit("旧中学", oldSchool);
+
+    pharmacy->addExit("公寓", suspectHome);
