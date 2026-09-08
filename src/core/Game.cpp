@@ -272,7 +272,7 @@ void Game::processCommand(const string& input) {
 
 void Game::go(const string& direction) {
     if (direction.empty()) {
-        cout << YELLOW << "請指定方向，例如：go 書房" << RESET << endl;
+        cout << YELLOW << "请指定方向，例如：go 书房" << RESET << endl;
         return;
     }
     Room* nextRoom = currentRoom->getExit(direction);
@@ -307,12 +307,25 @@ void Game::talk(const string& npcName) {
     while (!target.empty() && target.front() == ' ') target.erase(0, 1);
     while (!target.empty() && target.back() == ' ') target.pop_back();
 
+    // ===== 二周目解锁的NPC列表 =====
+    vector<string> lockedNPCs = { "理惠", "老师", "藤尾" };
+
     vector<NPC*> npcs = currentRoom->getNPCs();
     for (NPC* npc : npcs) {
         string npcNameStr = npc->getName();
         while (!npcNameStr.empty() && npcNameStr.front() == ' ') npcNameStr.erase(0, 1);
         while (!npcNameStr.empty() && npcNameStr.back() == ' ') npcNameStr.pop_back();
+
         if (npcNameStr == target) {
+            // ===== 检查是否被锁定 =====
+            for (const string& locked : lockedNPCs) {
+                if (target == locked && !choseContinue) {
+                    cout << YELLOW << target << "看起来不愿多谈。也许你需要先获得更多信任……" << RESET << endl;
+                    return;
+                }
+            }
+            // ===== 锁定检查结束 =====
+
             cout << CYAN << "💬 " << npc->getFirstDialog() << RESET << endl;
             return;
         }
