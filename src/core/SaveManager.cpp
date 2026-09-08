@@ -142,5 +142,6 @@ bool SaveManager::load(Game* game, const string& filename) {
     }
 
     cout << "✅ 游戏已读取" << endl;
+    game->look();
     return true;
 }
