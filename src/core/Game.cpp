@@ -235,9 +235,9 @@ void Game::processCommand(const string& input) {
         case CommandType::NOTEBOOK:
             showNotebook();
             break;
-        case CommandType::COMBINE:
+       /* case CommandType::COMBINE:
             combine(cmd.arg);
-            break;
+            break;*/
         case CommandType::QUESTION:
             question(cmd.arg);
             break;
@@ -888,7 +888,7 @@ void Game::showNotebook() {
     printDivider();
 }
 
-void Game::combine(const string& args) {
+/*void Game::combine(const string& args) {
     if (gameOver) {
         cout << RED << "游戏已结束，输入 quit 退出。" << RESET << endl;
         return;
@@ -931,7 +931,7 @@ void Game::combine(const string& args) {
     } else {
         cout << YELLOW << "这两个线索似乎无法组合。" << RESET << endl;
     }
-}
+}*/
 
 void Game::endingScreen(const string& endingType) {
     gameOver = true;

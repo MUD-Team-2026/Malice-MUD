@@ -67,7 +67,7 @@ string CommandParser::getHelp() const {
            "  look           - 查看当前场景\n"
            "  examine <物品> - 仔细检查物品\n"
            "  talk <人名>    - 与NPC对话\n"
-           "  combine <A>+<B>- 组合线索\n"
+          // "  combine <A>+<B>- 组合线索\n"
            "  think          - 整理思路\n"
            "  notebook       - 查看已收集线索\n"
            "  save           - 存档\n"

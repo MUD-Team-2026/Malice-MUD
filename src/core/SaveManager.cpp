@@ -4,6 +4,9 @@
 #include <iostream>
 #include <filesystem>
 
+#define CYAN    "\033[36m"
+#define RESET   "\033[0m"
+
 namespace fs = std::filesystem;
 
 SaveManager::SaveManager() {
@@ -142,6 +145,8 @@ bool SaveManager::load(Game* game, const string& filename) {
     }
 
     cout << "✅ 游戏已读取" << endl;
+    cout << endl;
+    cout << CYAN << "📂 继续调查：" << RESET << endl;
     game->look();
     return true;
 }
