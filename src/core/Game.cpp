@@ -1011,7 +1011,7 @@ void Game::showMap() {
     printDivider();
     cout << endl;
     cout << "              ┌──────────────────┐" << endl;
-    cout << "              │   警视厅搜查一課  │ ← 起点" << endl;
+    cout << "              │   警视厅搜查一課 │ ← 起点" << endl;
     cout << "              └────────┬─────────┘" << endl;
     cout << "                       │" << endl;
     cout << "              ┌────────┴─────────┐" << endl;
@@ -1020,23 +1020,22 @@ void Game::showMap() {
     cout << "              └────────┬─────────┘" << endl;
     cout << "                       │" << endl;
     cout << "              ┌────────┴─────────┐" << endl;
-    cout << "              │   日高家客厅     │ ← 理惠、邻居太太" << endl;
+    cout << "              │   日高家客厅     │          " << endl;
     cout << "              └────────┬─────────┘" << endl;
     cout << "                       │" << endl;
     cout << "              ┌────────┴─────────┐" << endl;
-    cout << "              │   野野口公寓     │ ← 手稿、打字机" << endl;
+    cout << "              │   野野口公寓     │         " << endl;
     cout << "              └────────┬─────────┘" << endl;
     cout << "                       │" << endl;
     cout << "         ┌─────────────┼─────────────┐" << endl;
     cout << "         │             │             │" << endl;
-    cout << "    ┌────┴────┐  ┌────┴────┐  ┌────┴────┐" << endl;
-    cout << "    │  旧中学  │  │ 社区药局 │  │ 日高旧居 │" << endl;
-    cout << "    │（老师）  │  │（毒药）  │  │（信件）  │" << endl;
-    cout << "    └─────────┘  └─────────┘  └─────────┘" << endl;
+    cout << "    ┌────┴────┐  ┌─────┴───┐    ┌────┴────┐" << endl;
+    cout << "    │社区药局 │  │  旧中学 │    │ 日高旧居│" << endl;
+    cout << "    └─────────┘  └─────────┘    └─────────┘" << endl;
     cout << endl;
     printDivider();
     cout << "  当前位于：" << BYELLOW << currentRoom->getName() << RESET << endl;
-    cout << "  已收集关键破绽：" << BYELLOW << notebook->getKeyClueCount() << RESET << " / 5" << endl;
+   // cout << "  已收集关键破绽：" << BYELLOW << notebook->getKeyClueCount() << RESET << " / 5" << endl;
     printDivider();
     cout << endl;
 }
