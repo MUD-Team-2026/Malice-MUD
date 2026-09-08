@@ -49,7 +49,7 @@ public:
     void examine(const string& itemName);
     void think();
     void showNotebook();
-    void combine(const string& args);
+    //void combine(const string& args);
     void question(const string& clueName);
     void meditate();
     void intimidate();

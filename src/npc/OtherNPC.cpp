@@ -68,8 +68,7 @@ string Neighbor::getFirstDialog() {
 string Neighbor::getDialog(const string& playerInput) {
     if (playerInput.find("猫") != string::npos || playerInput.find("毒") != string::npos) {
         return "邻居太太：\"我家的猫死的时候太惨了……\n"
-               "一定是日高干的！那个伪君子！\"\n"
-               "（但她的说法和药店老板的证词有矛盾……）";
+               "一定是日高干的！那个伪君子！\"\n";
     }
     return getFirstDialog();
 }

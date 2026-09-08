@@ -300,7 +300,7 @@ void Game::talk(const string& npcName) {
         return;
     }
     if (npcName.empty()) {
-        cout << YELLOW << "请指定要对话的人，例如：talk 野野口" << RESET << endl;
+        cout << YELLOW << "请指定要对话的人，例如：talk 野野口修" << RESET << endl;
         return;
     }
     string target = npcName;
@@ -326,7 +326,23 @@ void Game::talk(const string& npcName) {
             }
             // ===== 锁定检查结束 =====
 
-            cout << CYAN << "💬 " << npc->getFirstDialog() << RESET << endl;
+            // ===== 新增：询问玩家想聊什么 =====
+            cout << CYAN << "💬 你想和" << target << "聊什么？" << RESET << endl;
+            cout << YELLOW << "（输入关键词，或直接按回车结束对话）" << RESET << endl;
+            cout << GREEN << "> " << RESET;
+
+            string playerInput;
+            getline(cin, playerInput);
+
+            if (playerInput.empty()) {
+                // 直接回车：显示第一版对话
+                cout << CYAN << "💬 " << npc->getFirstDialog() << RESET << endl;
+            }
+            else {
+                // 有输入：调用 getDialog 尝试匹配关键词
+                string dialog = npc->getDialog(playerInput);
+                cout << CYAN << "💬 " << dialog << RESET << endl;
+            }
             return;
         }
     }
