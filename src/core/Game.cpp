@@ -380,7 +380,7 @@ void Game::examine(const string& itemName) {
             cout << CYAN << "这些手稿是日高所有作品的原始手稿，笔迹经鉴定是野野口的。" << endl;
             cout << "看起来野野口确实是日高的影子写手……" << endl;
             cout << GREEN << "【已记录：手写稿】" << RESET << endl;
-            notebook->addClue(new Clue("clue_handwriting_surface", "手写稿（表面证据）", 
+            notebook->addClue(new Clue("clue_handwriting_surface", "手写稿", 
                                "野野口的手稿笔迹鉴定为日高作品的原始手稿。", false, "野野口公寓"));
             foundSurface1 = true;
             checkTrap();
@@ -396,7 +396,7 @@ void Game::examine(const string& itemName) {
             cout << CYAN << "你看到了录影带的内容：野野口深夜潜入日高家书房翻找东西。" << endl;
             cout << "「他拍下我潜入的画面，用这个威胁我当他的影子写手……」" << endl;
             cout << GREEN << "【已记录：录影带】" << RESET << endl;
-            notebook->addClue(new Clue("clue_shadow_surface", "录影带（表面证据）", 
+            notebook->addClue(new Clue("clue_shadow_surface", "录影带", 
                                "录影带显示野野口深夜潜入日高家书房。", false, "日高家客厅"));
             foundSurface2 = true;
             checkTrap();
@@ -741,13 +741,13 @@ void Game::suspectTurn() {
 
     switch (action) {
         case 0:
-            healAmount = 10;
+            healAmount = 5;
             attackDamage = 15;
             cout << RED << "野野口修狡辩道：「那只是巧合！你不能证明什么！」" << RESET << endl;
             cout << "他的狡辩让他恢复了 " << GREEN << healAmount << RESET << " 点心理防线。" << endl;
             break;
         case 1:
-            healAmount = 15;
+            healAmount = 5;
             attackDamage = 10;
             cout << RED << "野野口修突然哭了起来：「你知道我有多痛苦吗？！」" << RESET << endl;
             cout << "你有些动摇了……他恢复了 " << GREEN << healAmount << RESET << " 点心理防线。" << endl;
@@ -755,7 +755,7 @@ void Game::suspectTurn() {
         case 2:
             if (suspectMental < 30 && !hasUsedLastLie) {
                 hasUsedLastLie = true;
-                healAmount = 20;
+                healAmount = 15;
                 attackDamage = 25;
                 cout << BRED << "⚠️ 野野口修发动了「最后的谎言」！" << RESET << endl;
                 cout << BRED << "「你永远无法证明！日高他就是个恶霸！」" << RESET << endl;
