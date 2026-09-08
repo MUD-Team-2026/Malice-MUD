@@ -574,19 +574,39 @@ void Game::checkTrap() {
 
 void Game::startConfrontation() {
     int keyCount = notebook->getKeyClueCount();
-    evidenceShown = 0;
-    
+
+    // ===== 线索不够时的提示 =====
     if (keyCount < 5) {
-        cout << RED << "野野口修冷笑道：「就凭这点证据？你太天真了！」" << RESET << endl;
-        cout << "你还需要收集更多关键破绽。（" << keyCount << " / 5）" << endl;
-        return;
+        cout << YELLOW << "⚠️ 你手上的证据还不够有力。" << RESET << endl;
+        cout << YELLOW << "贸然对质可能会失败，你确定要继续吗？" << RESET << endl;
+        cout << "  " << GREEN << "[1]" << RESET << " 继续对质" << endl;
+        cout << "  " << CYAN << "[2]" << RESET << " 再调查一下" << endl;
+        cout << "请输入 1 或 2：";
+
+        string choice;
+        getline(cin, choice);
+
+        if (choice == "2") {
+            cout << CYAN << "你决定再调查一下。" << RESET << endl;
+            return;
+        }
+        cout << endl;
+        cout << BRED << "你选择了证据不足的情况下对质！" << RESET << endl;
+        cout << "这将非常困难……" << RESET << endl;
+        cout << endl;
+
+        // 线索不够时，野野口更难打（但玩家仍可质问）
+        int penalty = (5 - keyCount) * 10;
+        suspectMental = 100 + penalty;
+        playerMental = 100 - penalty / 2;
+    }
+    else {
+        // 线索足够，正常开始
+        suspectMental = 100;
+        playerMental = 100;
     }
 
-    if (isInBattle) {
-        cout << YELLOW << "对质还在继续！" << RESET << endl;
-        return;
-    }
-
+    // ===== 开始对质 =====
     isInBattle = true;
     cout << endl;
     printDoubleDivider();
@@ -614,13 +634,6 @@ void Game::question(const string& clueName) {
         cout << YELLOW << "请指定要出示的线索。" << RESET << endl;
         return;
     }
-    
-    int keyCount = notebook->getKeyClueCount();
-    if (keyCount < 5) {
-        cout << RED << "野野口修冷笑道：「就凭这点证据？你太天真了！」" << RESET << endl;
-        cout << "你还需要收集更多关键破绽。（" << keyCount << " / 5）" << endl;
-        return;
-    }
 
     string target = clueName;
     while (!target.empty() && target.front() == ' ') target.erase(0, 1);
@@ -641,29 +654,41 @@ void Game::question(const string& clueName) {
         return;
     }
 
-    // ===== 證據計數 =====
-    evidenceShown++;
-    if (evidenceShown >= 5) {
-        suspectMental = 0;
-        cout << endl;
-        printDoubleDivider();
-        cout << BYELLOW << "你出示了全部5个关键证据！" << RESET << endl;
-        printDoubleDivider();
-        cout << endl;
+    // ===== 关键破绽数量 =====
+    int keyCount = notebook->getKeyClueCount();
+
+    // ===== 计算伤害：线索够 5 个时伤害 25，不够时伤害减半 =====
+    int damage;
+    if (keyCount >= 5) {
+        damage = 25;
+    }
+    else {
+        damage = 8 + keyCount * 2;
+        cout << YELLOW << "⚠️ 你的证据还不够充分，效果打了折扣……" << RESET << endl;
     }
 
-    int damage = 20;
-    suspectMental -= damage;
-    if (suspectMental < 0) suspectMental = 0;
-
+    // ===== 出示证据 =====
     cout << BYELLOW << "你拿出证据：「" << clue->getName() << "」" << RESET << endl;
     cout << BRED << "「野野口先生，请解释一下！」" << RESET << endl;
     cout << endl;
     cout << CYAN << clue->getDescription() << RESET << endl;
     cout << endl;
-    cout << RED << "野野口修的脸色变得苍白！" << RESET << endl;
-    cout << "野野口修的心理防线受到 " << RED << damage << RESET << " 点伤害！" << endl;
+
+    suspectMental -= damage;
+    if (suspectMental < 0) suspectMental = 0;
+
+    cout << RED << "野野口修的心理防线受到 " << damage << " 点伤害！" << RESET << endl;
     cout << "剩余心理防线：" << RED << suspectMental << RESET << " / 100" << endl;
+
+    // ===== 崩溃边缘判定 =====
+    if (suspectMental < 30 && !hasUsedLastLie && week == 2) {
+        hasUsedLastLie = true;
+        cout << endl;
+        printDivider();
+        cout << BRED << "💀 野野口修进入了「崩溃边缘」！" << RESET << endl;
+        printDivider();
+        cout << endl;
+    }
 
     if (suspectMental == 0) {
         cout << endl;
@@ -678,17 +703,15 @@ void Game::question(const string& clueName) {
         cout << "只是从中学时代开始，日复一日、年复一年的……恶意。" << RESET << endl;
         printDoubleDivider();
         cout << endl;
-        endingScreen("HE");
-        return;
-    }
 
-    if (suspectMental < 30 && !hasUsedLastLie && week == 2) {
-        hasUsedLastLie = true;
-        cout << endl;
-        printDivider();
-        cout << BRED << "💀 野野口修进入了「崩溃边缘」！" << RESET << endl;
-        printDivider();
-        cout << endl;
+        // 根据线索数量决定结局
+        if (keyCount >= 5) {
+            endingScreen("TE");
+        }
+        else {
+            endingScreen("HE");
+        }
+        return;
     }
 
     if (suspectMental > 0) {
@@ -1021,7 +1044,7 @@ void Game::submitReport() {
     }
     
     if (keyCount < 5) {
-        endingScreen("NE");
+        endingScreen("BE");
         return;
     }
     
