@@ -70,6 +70,9 @@ string Neighbor::getDialog(const string& playerInput) {
         return "邻居太太：\"我家的猫死的时候太惨了……\n"
                "一定是日高干的！那个伪君子！\"\n";
     }
+    if (playerInput.find("野野口") != string::npos) {
+        return "邻居太太：我没有见过他\n";
+    }
     return getFirstDialog();
 }
 
@@ -84,7 +87,9 @@ string Pharmacist::getFirstDialog() {
 }
 
 string Pharmacist::getDialog(const string& playerInput) {
-    if (playerInput.find("山埃") != string::npos || playerInput.find("毒药") != string::npos) {
+    bool hasName = playerInput.find("野野口") != string::npos;
+    bool hasPoison = playerInput.find("毒") != string::npos || playerInput.find("山埃") != string::npos;
+    if (hasName && hasPoison) {
         return "药店老板：\"我记得很清楚，是上个月15号。\n"
                "他买的量很大，说是家里鼠患严重……\n"
                "现在想想，那时候日高先生还没出事呢。\"";

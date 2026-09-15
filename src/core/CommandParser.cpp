@@ -1,5 +1,6 @@
 #include "CommandParser.h"
 #include <sstream>
+#include <vector>
 
 CommandParser::CommandParser() {
     cmdMap["help"] = CommandType::HELP;
@@ -42,10 +43,30 @@ Command CommandParser::parse(const string& input) {
     string arg = "";
 
     if (pos != string::npos) {
+        // ===== 有空格：正常分割 =====
         word = input.substr(0, pos);
         arg = input.substr(pos + 1);
         while (!arg.empty() && arg.front() == ' ') arg.erase(0, 1);
         while (!arg.empty() && arg.back() == ' ') arg.pop_back();
+    }
+    else {
+        // ===== 没有空格：尝试匹配"指令+参数" =====
+        // 按指令长度从长到短尝试匹配
+        vector<string> commands = { "examine", "notebook", "confront", "combine",
+                                   "report", "meditate", "intimidate", "talk",
+                                   "look", "help", "quit", "exit", "save", "load",
+                                   "think", "map", "go",
+                                   "质问", "沉思", "威吓", "对质", "對質", "逃跑", "退出对质" };
+
+        for (const string& command : commands) {
+            if (input.substr(0, command.length()) == command && input.length() > command.length()) {
+                word = command;
+                arg = input.substr(command.length());
+                // 去掉参数前面的空格（如果有）
+                while (!arg.empty() && arg.front() == ' ') arg.erase(0, 1);
+                break;
+            }
+        }
     }
 
     auto it = cmdMap.find(word);
