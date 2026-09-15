@@ -23,7 +23,8 @@ enum class CommandType {
     INTIMIDATE,
     CONFRONT,
     REPORT,
-    MAP
+    MAP,
+    FLEE
 };
 
 struct Command {

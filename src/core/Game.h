@@ -60,6 +60,7 @@ public:
     void startConfrontation();
     void endingScreen(const string& endingType);
     void confront();
+    void flee();
     Room* getCurrentRoom() const;
     void moveToRoom(const string& roomId);
     Notebook* getNotebook() { return notebook; }

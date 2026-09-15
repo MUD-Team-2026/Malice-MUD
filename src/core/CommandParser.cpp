@@ -25,6 +25,9 @@ CommandParser::CommandParser() {
     cmdMap["对质"] = CommandType::CONFRONT;
     cmdMap["report"] = CommandType::REPORT;
     cmdMap["map"] = CommandType::MAP;
+    cmdMap["flee"] = CommandType::FLEE;      
+    cmdMap["逃跑"] = CommandType::FLEE;      
+    cmdMap["退出对质"] = CommandType::FLEE;  
 }
 
 Command CommandParser::parse(const string& input) {
@@ -79,5 +82,6 @@ string CommandParser::getHelp() const {
            "对质战斗命令：\n"
            "  质问 <线索名>  - 出示证据质问\n"
            "  沉思           - 恢复心理防线\n"
-           "  威吓           - 削弱敌人气势";
+           "  威吓           - 削弱敌人气势\n"
+           "  flee           - 退出对质";
 }

@@ -256,6 +256,9 @@ void Game::processCommand(const string& input) {
         case CommandType::CONFRONT:
             confront();
             break;
+        case CommandType::FLEE:
+            flee();
+            break;
         case CommandType::SAVE:
             saveManager.save(this);
             break;
@@ -856,14 +859,33 @@ void Game::intimidate() {
 void Game::confront() {
     cout << BYELLOW << "⚔️ 你決定與野野口修當面對質！" << RESET << endl;
     
-    int keyCount = notebook->getKeyClueCount();
+    /*int keyCount = notebook->getKeyClueCount();
     if (keyCount < 5) {
         cout << RED << "野野口修冷笑道：「就憑這點證據？你太天真了！」" << RESET << endl;
         cout << "你还需要收集更多关键破绽。（" << keyCount << " / 5）" << endl;
         return;
-    }
+    }*/
     
     startConfrontation();
+}
+
+void Game::flee() {
+    if (!isInBattle) {
+        cout << YELLOW << "你不在对质中。" << RESET << endl;
+        return;
+    }
+
+    cout << endl;
+    cout << YELLOW << "你决定退出对质……" << RESET << endl;
+    cout << CYAN << "野野口修冷笑道：「怎么？证据不够，想跑了？」" << RESET << endl;
+    cout << endl;
+
+    isInBattle = false;
+    // 恢复心理防线，方便下次再战
+    playerMental = 100;
+    suspectMental = 100;
+
+    cout << GREEN << "你回到了调查中。" << RESET << endl;
 }
 
 void Game::think() {
