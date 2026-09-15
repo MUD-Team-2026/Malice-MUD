@@ -642,6 +642,26 @@ void Game::question(const string& clueName) {
     while (!target.empty() && target.front() == ' ') target.erase(0, 1);
     while (!target.empty() && target.back() == ' ') target.pop_back();
 
+    // ===== 新增：表面证据不能用来对质 =====
+    if (target.find("手写稿") != string::npos ||
+        target.find("手稿") != string::npos ||
+        target.find("录影带") != string::npos ||
+        target.find("录像带") != string::npos) {
+        cout << BRED << "野野口修冷笑道：「这种东西能证明什么？」" << RESET << endl;
+        cout << CYAN << "他反手一击，你的心理防线受到 10 点伤害！" << RESET << endl;
+        playerMental -= 10;
+        if (playerMental < 0) playerMental = 0;
+        cout << "你的剩余心理防线：" << GREEN << playerMental << RESET << " / 100" << endl;
+
+        if (playerMental == 0) {
+            cout << endl;
+            cout << RED << "你感到一阵眩晕……野野口的狡辩让你动摇了。" << RESET << endl;
+            endingScreen("NE");
+        }
+        return;
+    }
+    // ===== 新增结束 =====
+
     Clue* clue = nullptr;
     for (Clue* c : notebook->getAllClues()) {
         string name = c->getName();
